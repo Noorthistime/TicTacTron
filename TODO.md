@@ -1,0 +1,5 @@
+- [ ] Add theme tokens + CSS overrides for dark/light in index.html
+- [ ] Add Theme toggle UI (Dark / Light)
+- [ ] Add JS to initialize theme from localStorage or prefers-color-scheme and persist choice
+- [ ] Make confetti colors theme-aware
+- [ ] Sanity-check that existing game UI uses the theme variables (no hardcoded dark/light backgrounds that break)
