@@ -65,8 +65,8 @@
     }
 
     :root[data-theme="light"] {
-      /* Light: white shades + green + light blues */
-      --bg-gradient: radial-gradient(circle at 50% 50%, #f0fdf4 0%, #eff6ff 100%);
+      /* Light: white shades + warm orange/red + light blues */
+      --bg-gradient: radial-gradient(circle at 50% 50%, #fff5f5 0%, #eff6ff 100%);
       --color-text-main: #0f172a;
       --color-text-muted: rgba(15, 23, 42, 0.65);
 
@@ -84,16 +84,14 @@
       --overlay-bg: rgba(15, 23, 42, 0.35);
       --result-card-bg: rgba(255, 255, 255, 0.70);
 
-      /* X = light blue, O = green */
-      --accent-x: #0ea5e9;
-      /* light blue */
-      --accent-x-glow: rgba(14, 165, 233, 0.28);
-      --accent-x-bg: rgba(14, 165, 233, 0.10);
+      /* X = orange, O = red (matching dark mode) */
+      --accent-x: #f97316;
+      --accent-x-glow: rgba(249, 115, 22, 0.30);
+      --accent-x-bg: rgba(249, 115, 22, 0.10);
 
-      --accent-o: #22c55e;
-      /* green */
-      --accent-o-glow: rgba(34, 197, 94, 0.26);
-      --accent-o-bg: rgba(34, 197, 94, 0.10);
+      --accent-o: #ef4444;
+      --accent-o-glow: rgba(239, 68, 68, 0.30);
+      --accent-o-bg: rgba(239, 68, 68, 0.10);
 
       --accent-blue: #2563eb;
       --accent-blue-glow: rgba(37, 99, 235, 0.22);
@@ -123,6 +121,17 @@
       padding: 0;
     }
 
+    :root {
+      --header-glow-color-1: rgba(249, 115, 22, 0.25);
+      --header-glow-color-2: rgba(239, 68, 68, 0.20);
+      --header-border-glow: rgba(249, 115, 22, 0.35);
+    }
+    :root[data-theme="light"] {
+      --header-glow-color-1: rgba(249, 115, 22, 0.18);
+      --header-glow-color-2: rgba(239, 68, 68, 0.12);
+      --header-border-glow: rgba(249, 115, 22, 0.25);
+    }
+
     body {
       font-family: var(--font-family);
       background: var(--bg-gradient);
@@ -131,10 +140,288 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       overflow-x: hidden;
       position: relative;
-      padding: 20px;
+      padding: 130px 20px 20px 20px;
+    }
+
+    /* Top Premium Panel Styles */
+    .top-premium-panel {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      right: 20px;
+      margin: 0 auto;
+      max-width: 1280px;
+      z-index: 1000;
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 12px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: header-glow 4s infinite ease-in-out;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .top-premium-panel:hover {
+      transform: translateY(2px);
+      border-color: var(--accent-x);
+      box-shadow: var(--glass-shadow), 0 10px 30px rgba(249, 115, 22, 0.15), 0 0 20px rgba(239, 68, 68, 0.1);
+    }
+
+    /* Hover animations for panel icons/buttons */
+    .icon-btn, .btn-toggle {
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .icon-btn:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 4px 15px var(--color-cyan-glow);
+      color: var(--color-cyan);
+    }
+
+    /* Specifically for theme toggle sun/moon spin */
+    #btn-theme-toggle:hover svg {
+      animation: spin-pulse 0.6s ease-in-out;
+    }
+
+    @keyframes spin-pulse {
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+      50% {
+        transform: rotate(180deg) scale(1.2);
+      }
+      100% {
+        transform: rotate(360deg) scale(1);
+      }
+    }
+
+    /* Sound icon animation */
+    #btn-sound:hover svg {
+      animation: sound-pulse 0.4s infinite alternate ease-in-out;
+    }
+
+    @keyframes sound-pulse {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.15);
+      }
+    }
+
+    /* Logo hover effect */
+    .logo-container:hover .header-logo {
+      transform: scale(1.15) rotate(-10deg);
+      filter: drop-shadow(0 0 12px var(--color-cyan-glow)) drop-shadow(0 0 12px var(--color-magenta-glow));
+    }
+
+    /* Logo interactive strike animations */
+    .logo-default-markers {
+      transition: opacity 0.25s ease;
+    }
+    .header-logo.animate-o .logo-default-markers,
+    .header-logo.animate-x .logo-default-markers {
+      opacity: 0;
+    }
+
+    /* Staggered drawing */
+    @keyframes logo-draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* O animation rules */
+    .header-logo.animate-o .logo-o-group {
+      opacity: 1 !important;
+    }
+    .header-logo.animate-o .logo-o-1 {
+      animation: logo-draw 0.25s ease-out forwards;
+    }
+    .header-logo.animate-o .logo-o-2 {
+      animation: logo-draw 0.25s ease-out 0.08s forwards;
+    }
+    .header-logo.animate-o .logo-o-3 {
+      animation: logo-draw 0.25s ease-out 0.16s forwards;
+    }
+    .header-logo.animate-o .logo-strike-line {
+      opacity: 1 !important;
+      stroke: var(--color-magenta);
+      animation: logo-draw 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+      filter: drop-shadow(0 0 5px var(--color-magenta-glow));
+    }
+
+    /* X animation rules */
+    .header-logo.animate-x .logo-x-group {
+      opacity: 1 !important;
+    }
+    .header-logo.animate-x .logo-x-1a { animation: logo-draw 0.15s ease-out forwards; }
+    .header-logo.animate-x .logo-x-1b { animation: logo-draw 0.15s ease-out 0.05s forwards; }
+    .header-logo.animate-x .logo-x-2a { animation: logo-draw 0.15s ease-out 0.1s forwards; }
+    .header-logo.animate-x .logo-x-2b { animation: logo-draw 0.15s ease-out 0.15s forwards; }
+    .header-logo.animate-x .logo-x-3a { animation: logo-draw 0.15s ease-out 0.2s forwards; }
+    .header-logo.animate-x .logo-x-3b { animation: logo-draw 0.15s ease-out 0.25s forwards; }
+    
+    .header-logo.animate-x .logo-strike-line {
+      opacity: 1 !important;
+      stroke: var(--color-cyan);
+      animation: logo-draw 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.35s forwards;
+      filter: drop-shadow(0 0 5px var(--color-cyan-glow));
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .header-logo {
+      animation: logo-pulse 3s infinite ease-in-out;
+    }
+
+    .logo-grid-line {
+      stroke-dasharray: 80;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.5s ease;
+    }
+
+    .logo-x-line, .logo-o-circle {
+      transition: all 0.3s ease;
+    }
+
+    .logo-container:hover .logo-grid-line {
+      stroke-dashoffset: 160;
+    }
+
+    .logo-text {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #fff 30%, var(--color-cyan) 70%, var(--color-magenta) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      user-select: none;
+      animation: title-glow 3s infinite ease-in-out;
+    }
+
+    .header-options {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .option-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+    }
+
+    /* AI Difficulty dynamic transition */
+    #difficulty-container {
+      display: flex;
+      opacity: 0;
+      max-width: 0;
+      overflow: hidden;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 0;
+    }
+
+    #difficulty-container.visible {
+      opacity: 1;
+      max-width: 450px;
+      pointer-events: auto;
+    }
+
+    /* Animations */
+    @keyframes header-glow {
+      0% {
+        box-shadow: var(--glass-shadow), 0 0 12px var(--header-glow-color-1);
+        border-color: var(--glass-border);
+      }
+      50% {
+        box-shadow: var(--glass-shadow), 0 0 25px var(--header-glow-color-1), 0 0 35px var(--header-glow-color-2);
+        border-color: var(--header-border-glow);
+      }
+      100% {
+        box-shadow: var(--glass-shadow), 0 0 12px var(--header-glow-color-1);
+        border-color: var(--glass-border);
+      }
+    }
+
+    @keyframes logo-pulse {
+      0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 2px var(--color-cyan-glow));
+      }
+      50% {
+        transform: scale(1.06);
+        filter: drop-shadow(0 0 8px var(--color-cyan-glow)) drop-shadow(0 0 8px var(--color-magenta-glow));
+      }
+      100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 2px var(--color-cyan-glow));
+      }
+    }
+
+    @keyframes title-glow {
+      0% {
+        filter: drop-shadow(0 0 2px var(--color-cyan-glow));
+      }
+      50% {
+        filter: drop-shadow(0 0 8px var(--color-cyan-glow)) drop-shadow(0 0 8px var(--color-magenta-glow));
+      }
+      100% {
+        filter: drop-shadow(0 0 2px var(--color-cyan-glow));
+      }
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding-top: 175px;
+      }
+      .top-premium-panel {
+        top: 10px;
+        left: 15px;
+        right: 15px;
+        border-radius: 15px;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px 20px;
+      }
+      .header-options {
+        justify-content: center;
+        width: 100%;
+        gap: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding-top: 215px;
+      }
+      .header-options {
+        gap: 10px;
+      }
     }
 
     /* Ambient background lights */
@@ -177,11 +464,11 @@
     /* App Container */
     .app-container {
       width: 100%;
-      max-width: 480px;
+      max-width: 440px;
       z-index: 1;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
     /* Premium Typography & Headers */
@@ -273,19 +560,7 @@
     }
 
     /* Accessibility / Layout for Difficulty setting */
-    #difficulty-container {
-      transition: all var(--transition-speed) ease;
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      margin-top: -8px;
-    }
 
-    #difficulty-container.visible {
-      opacity: 1;
-      max-height: 50px;
-      margin-top: 4px;
-    }
 
     /* Sound Switcher */
     .icon-btn {
@@ -324,6 +599,13 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
       text-align: center;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .scoreboard:hover {
+      border-color: rgba(249, 115, 22, 0.25);
+      box-shadow: var(--glass-shadow), 0 0 15px rgba(249, 115, 22, 0.15), 0 0 25px rgba(239, 68, 68, 0.08);
+      transform: translateY(-1px);
     }
 
     .score-box {
@@ -339,6 +621,22 @@
       overflow: hidden;
     }
 
+    .score-box:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-active);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.06);
+    }
+
+    #score-box-x:hover {
+      box-shadow: 0 0 12px var(--color-cyan-glow);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    #score-box-o:hover {
+      box-shadow: 0 0 12px var(--color-magenta-glow);
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
     .score-box.active-x {
       border-color: var(--color-cyan);
       box-shadow: 0 0 15px var(--color-cyan-glow);
@@ -347,6 +645,24 @@
     .score-box.active-o {
       border-color: var(--color-magenta);
       box-shadow: 0 0 15px var(--color-magenta-glow);
+    }
+
+    .player-marker-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      opacity: 0.65;
+      margin-top: -2px;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .player-marker-label.color-x {
+      color: var(--color-cyan);
+    }
+
+    .player-marker-label.color-o {
+      color: var(--color-magenta);
     }
 
     .score-label {
@@ -657,6 +973,27 @@
       filter: drop-shadow(0 0 8px var(--color-cyan-glow));
     }
 
+    /* Custom Prompt Dialog Styles */
+    #prompt-input {
+      font-size: 1rem;
+      background: rgba(0, 0, 0, 0.15) !important;
+      border: 1px solid var(--glass-border) !important;
+      color: var(--color-text-main) !important;
+      cursor: text !important;
+      transition: all var(--transition-speed) ease;
+    }
+    
+    :root[data-theme="light"] #prompt-input {
+      background: rgba(255, 255, 255, 0.5) !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      color: var(--color-text-main) !important;
+    }
+
+    #prompt-input:focus {
+      border-color: var(--color-cyan) !important;
+      box-shadow: 0 0 10px var(--color-cyan-glow);
+    }
+
     .winner-text-o {
       background: linear-gradient(135deg, #fff, var(--color-magenta));
       filter: drop-shadow(0 0 8px var(--color-magenta-glow));
@@ -724,70 +1061,132 @@
   <!-- Confetti particle element -->
   <canvas id="confetti-canvas"></canvas>
 
-  <div class="app-container">
+  <!-- Top Premium Header Panel -->
+  <header class="top-premium-panel">
+     <a href="#" class="logo-container" onclick="event.preventDefault()">
+      <svg class="header-logo" viewBox="0 0 100 100" width="36" height="36">
+        <!-- Grid lines -->
+        <line class="logo-grid-line" x1="35" y1="10" x2="35" y2="90" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round"/>
+        <line class="logo-grid-line" x1="65" y1="10" x2="65" y2="90" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round"/>
+        <line class="logo-grid-line" x1="10" y1="35" x2="90" y2="35" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round"/>
+        <line class="logo-grid-line" x1="10" y1="65" x2="90" y2="65" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round"/>
+        
+        <!-- Default markers: X in top-left, O in center, X in bottom-right -->
+        <g class="logo-default-markers">
+          <g class="logo-x-marker">
+            <line x1="13" y1="13" x2="27" y2="27" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" />
+            <line x1="27" y1="13" x2="13" y2="27" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" />
+          </g>
+          <circle cx="50" cy="50" r="7" stroke="var(--color-magenta)" stroke-width="6" fill="none" />
+          <g class="logo-x-marker">
+            <line x1="73" y1="73" x2="87" y2="87" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" />
+            <line x1="87" y1="73" x2="73" y2="87" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" />
+          </g>
+        </g>
 
-    <!-- Title / Header -->
-    <header>
-      <h1 id="game-title">TicTacTron - SNM</h1>
-      <div class="subtitle">TicTacTron - SNM</div>
-    </header>
+        <!-- Interactive O's group -->
+        <g class="logo-o-group" style="opacity: 0; pointer-events: none;">
+          <circle class="logo-o-1" cx="20" cy="20" r="7" stroke="var(--color-magenta)" stroke-width="6" fill="none" stroke-dasharray="50" stroke-dashoffset="50" />
+          <circle class="logo-o-2" cx="50" cy="50" r="7" stroke="var(--color-magenta)" stroke-width="6" fill="none" stroke-dasharray="50" stroke-dashoffset="50" />
+          <circle class="logo-o-3" cx="80" cy="80" r="7" stroke="var(--color-magenta)" stroke-width="6" fill="none" stroke-dasharray="50" stroke-dashoffset="50" />
+        </g>
 
-    <!-- Configuration Panels -->
-    <section class="glass-card controls">
-      <div class="row-settings">
-        <span class="setting-label">Opponent</span>
+        <!-- Interactive X's group -->
+        <g class="logo-x-group" style="opacity: 0; pointer-events: none;">
+          <!-- X1 -->
+          <line class="logo-x-1a" x1="13" y1="13" x2="27" y2="27" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" stroke-dasharray="20" stroke-dashoffset="20" />
+          <line class="logo-x-1b" x1="27" y1="13" x2="13" y2="27" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" stroke-dasharray="20" stroke-dashoffset="20" />
+          <!-- X2 -->
+          <line class="logo-x-2a" x1="43" y1="43" x2="57" y2="57" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" stroke-dasharray="20" stroke-dashoffset="20" />
+          <line class="logo-x-2b" x1="57" y1="43" x2="43" y2="57" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" stroke-dasharray="20" stroke-dashoffset="20" />
+          <!-- X3 -->
+          <line class="logo-x-3a" x1="73" y1="73" x2="87" y2="87" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" stroke-dasharray="20" stroke-dashoffset="20" />
+          <line class="logo-x-3b" x1="87" y1="73" x2="73" y2="87" stroke="var(--color-cyan)" stroke-width="6" stroke-linecap="round" stroke-dasharray="20" stroke-dashoffset="20" />
+        </g>
+
+        <!-- Win line / Strike line -->
+        <line class="logo-strike-line" x1="10" y1="10" x2="90" y2="90" stroke-width="6" stroke-linecap="round" stroke-dasharray="120" stroke-dashoffset="120" style="opacity: 0; pointer-events: none;" />
+      </svg>
+      <span class="logo-text">TicTacTron</span>
+    </a>
+
+    <div class="header-options">
+      <!-- Opponent Group -->
+      <div class="option-item">
+        <span class="option-label">Opponent</span>
         <div class="btn-group" role="radiogroup" aria-label="Game Mode Select">
           <button id="mode-pvp" class="btn-toggle active" role="radio" aria-checked="true" tabindex="0">PvP</button>
           <button id="mode-ai" class="btn-toggle" role="radio" aria-checked="false" tabindex="-1">Smart AI</button>
         </div>
+      </div>
 
-        <!-- Theme toggle -->
-        <div class="btn-group" role="radiogroup" aria-label="Theme Select">
-          <button id="theme-dark" class="btn-toggle" role="radio" aria-checked="false" tabindex="-1">Dark</button>
-          <button id="theme-light" class="btn-toggle active" role="radio" aria-checked="true"
-            tabindex="0">Light</button>
+      <!-- AI Difficulty Group -->
+      <div id="difficulty-container" class="option-item">
+        <span class="option-label">AI Difficulty</span>
+        <div class="btn-group" role="radiogroup" aria-label="AI Difficulty Select">
+          <button id="diff-easy" class="btn-toggle" role="radio" aria-checked="false" tabindex="-1">Novice</button>
+          <button id="diff-medium" class="btn-toggle" role="radio" aria-checked="false" tabindex="-1">Medium</button>
+          <button id="diff-hard" class="btn-toggle active" role="radio" aria-checked="true"
+            tabindex="0">Grandmaster</button>
         </div>
+      </div>
 
-        <!-- Mute Sound toggle -->
-        <button id="btn-sound" class="icon-btn" aria-label="Toggle sound effects">
-          <!-- Speaker Loud Vector Icon -->
-          <svg id="svg-sound-on" viewBox="0 0 24 24">
-            <path
-              d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-3 0L5 8H1v8h4l6 4.77V3.23zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
+      <!-- Theme Toggle -->
+      <div class="option-item">
+        <button id="btn-theme-toggle" class="icon-btn" aria-label="Toggle theme" title="Toggle Theme" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 12px;">
+          <!-- Sun Icon (shown in dark theme to switch to light) -->
+          <svg id="svg-theme-sun" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
           </svg>
-          <!-- Speaker Mute Vector Icon -->
-          <svg id="svg-sound-off" viewBox="0 0 24 24" style="display: none;">
-            <path
-              d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l6 4.77V14.27l5.25 5.25c-.71.55-1.5 1-2.36 1.28v2.06c1.4-.33 2.67-1.04 3.75-2.02L19.73 21 21 19.73l-9-9L4.27 3zM11 3.23L8.83 4.96 11 7.13V3.23z" />
+          <!-- Moon Icon (shown in light theme to switch to dark) -->
+          <svg id="svg-theme-moon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
         </button>
       </div>
 
-       <!-- AI Difficulty Panel (reveals dynamically) -->
-       <div id="difficulty-container" class="row-settings">
-         <span class="setting-label">AI Difficulty</span>
-         <div class="btn-group" role="radiogroup" aria-label="AI Difficulty Select">
-           <button id="diff-easy" class="btn-toggle" role="radio" aria-checked="false" tabindex="-1">Novice</button>
-           <button id="diff-medium" class="btn-toggle" role="radio" aria-checked="false" tabindex="-1">Medium</button>
-           <button id="diff-hard" class="btn-toggle active" role="radio" aria-checked="true"
-             tabindex="0">Grandmaster</button>
-         </div>
-       </div>
-    </section>
+      <!-- Mute Sound Toggle -->
+      <button id="btn-sound" class="icon-btn" aria-label="Toggle sound effects">
+        <!-- Speaker Loud Vector Icon -->
+        <svg id="svg-sound-on" viewBox="0 0 24 24">
+          <path
+            d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-3 0L5 8H1v8h4l6 4.77V3.23zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
+        </svg>
+        <!-- Speaker Mute Vector Icon -->
+        <svg id="svg-sound-off" viewBox="0 0 24 24" style="display: none;">
+          <path
+            d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l6 4.77V14.27l5.25 5.25c-.71.55-1.5 1-2.36 1.28v2.06c1.4-.33 2.67-1.04 3.75-2.02L19.73 21 21 19.73l-9-9L4.27 3zM11 3.23L8.83 4.96 11 7.13V3.23z" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="app-container">
 
     <!-- Score Dashboard -->
     <section class="glass-card scoreboard">
-      <div id="score-box-x" class="score-box active-x">
+      <div id="score-box-x" class="score-box active-x" style="cursor: pointer;" title="Click to rename Player X">
         <span class="score-label" id="label-x">Player X</span>
+        <span class="player-marker-label color-x">X</span>
         <span class="score-val color-x" id="val-x">0</span>
         <div class="player-indicator"><span class="indicator-dot"></span>Active</div>
       </div>
       <div class="score-box">
         <span class="score-label">Draws</span>
+        <span class="player-marker-label" style="opacity: 0;">—</span>
         <span class="score-val" id="val-draw">0</span>
       </div>
-      <div id="score-box-o" class="score-box">
+      <div id="score-box-o" class="score-box" style="cursor: pointer;" title="Click to rename Player O">
         <span class="score-label" id="label-o">Player O</span>
+        <span class="player-marker-label color-o">O</span>
         <span class="score-val color-o" id="val-o">0</span>
         <div class="player-indicator"><span class="indicator-dot"></span>Active</div>
       </div>
@@ -842,6 +1241,20 @@
     </div>
   </div>
 
+  <!-- Custom Prompt Dialogue Modal -->
+  <div class="overlay" id="prompt-overlay" style="z-index: 2000;">
+    <div class="glass-card result-card" role="dialog" aria-modal="true" aria-labelledby="prompt-title">
+      <div class="result-title" id="prompt-title" style="font-size: 1.3rem;">Player Name</div>
+      <div style="margin: 15px 0; width: 100%;">
+        <input type="text" id="prompt-input" class="btn-action" style="width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px; font-weight: 600; outline: none;" placeholder="Enter name...">
+      </div>
+      <div class="btn-action-container" style="display: flex; gap: 10px; width: 100%;">
+        <button id="btn-prompt-cancel" class="btn-action" style="flex: 1; padding: 10px 0;">Cancel</button>
+        <button id="btn-prompt-ok" class="btn-action primary" style="flex: 1; padding: 10px 0;">OK</button>
+      </div>
+    </div>
+  </div>
+
 
 
   <!-- JavaScript Logics -->
@@ -862,37 +1275,27 @@
         document.documentElement.dataset.theme = theme;
         localStorage.setItem(STORAGE_KEY, theme);
 
-        const btnDark = document.getElementById('theme-dark');
-        const btnLight = document.getElementById('theme-light');
-        if (btnDark && btnLight) {
+        const svgSun = document.getElementById('svg-theme-sun');
+        const svgMoon = document.getElementById('svg-theme-moon');
+        if (svgSun && svgMoon) {
           const isDark = theme === 'dark';
-          btnDark.classList.toggle('active', isDark);
-          btnLight.classList.toggle('active', !isDark);
-
-          btnDark.setAttribute('aria-checked', String(isDark));
-          btnLight.setAttribute('aria-checked', String(!isDark));
-          btnDark.tabIndex = isDark ? 0 : -1;
-          btnLight.tabIndex = !isDark ? 0 : -1;
+          svgSun.style.display = isDark ? 'block' : 'none';
+          svgMoon.style.display = isDark ? 'none' : 'block';
         }
+      }
+
+      function toggleTheme() {
+        const current = document.documentElement.dataset.theme || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
       }
 
       function init() {
         const theme = getPreferredTheme();
         applyTheme(theme);
-
-        // Ensure theme toggle matches initial theme before any user interactions
-        const btnDark = document.getElementById('theme-dark');
-        const btnLight = document.getElementById('theme-light');
-        if (btnDark && btnLight) {
-          const isDark = theme === 'dark';
-          btnDark.classList.toggle('active', isDark);
-          btnLight.classList.toggle('active', !isDark);
-          btnDark.setAttribute('aria-checked', String(isDark));
-          btnLight.setAttribute('aria-checked', String(!isDark));
-        }
       }
 
-      return { init, applyTheme };
+      return { init, applyTheme, toggleTheme };
     })();
     /* ---------------------------------------------------- */
     /* 1. AUDIO SYNTHESIZER MODULE (Web Audio API)          */
@@ -1005,13 +1408,13 @@
         const theme = document.documentElement.dataset.theme || 'dark';
 
         if (theme === 'light') {
-          // Light mode: light blues + green + subtle orange/red accents
+          // Light mode: warm red/orange accents + light blues
           return [
-            getComputedStyle(document.documentElement).getPropertyValue('--accent-x').trim(), // light blue (X)
-            getComputedStyle(document.documentElement).getPropertyValue('--accent-o').trim(), // green (O)
+            getComputedStyle(document.documentElement).getPropertyValue('--accent-x').trim(), // orange (X)
+            getComputedStyle(document.documentElement).getPropertyValue('--accent-o').trim(), // red (O)
             '#60a5fa', // light blue-ish
-            '#22c55e', // green
-            '#f97316'  // subtle orange accent
+            '#f87171', // soft red
+            '#f97316'  // orange accent
           ].filter(Boolean);
         }
 
@@ -1409,6 +1812,12 @@
       const valO = document.getElementById('val-o');
       const valDraw = document.getElementById('val-draw');
 
+      const labelX = document.getElementById('label-x');
+      const labelO = document.getElementById('label-o');
+
+      let customPlayerXName = 'Player X';
+      let customPlayerOName = 'Player O';
+
       const modePvP = document.getElementById('mode-pvp');
       const modeAI = document.getElementById('mode-ai');
       const diffContainer = document.getElementById('difficulty-container');
@@ -1427,7 +1836,79 @@
       const modalBody = document.getElementById('modal-body');
       const btnPlayAgain = document.getElementById('btn-play-again');
 
-      const labelO = document.getElementById('label-o');
+      // Reconstructed Custom Dialog helper
+      const CustomPrompt = (() => {
+        const promptOverlay = document.getElementById('prompt-overlay');
+        const promptTitle = document.getElementById('prompt-title');
+        const promptInput = document.getElementById('prompt-input');
+        const btnPromptOk = document.getElementById('btn-prompt-ok');
+        const btnPromptCancel = document.getElementById('btn-prompt-cancel');
+
+        let currentResolve = null;
+
+        function show(titleText, defaultValue) {
+          return new Promise((resolve) => {
+            currentResolve = resolve;
+            promptTitle.textContent = titleText;
+            promptInput.value = defaultValue || '';
+            promptOverlay.classList.add('active');
+            setTimeout(() => {
+              promptInput.focus();
+              promptInput.select();
+            }, 100);
+          });
+        }
+
+        function hide() {
+          promptOverlay.classList.remove('active');
+          currentResolve = null;
+        }
+
+        function handleOk() {
+          if (currentResolve) {
+            currentResolve(promptInput.value);
+          }
+          hide();
+        }
+
+        function handleCancel() {
+          if (currentResolve) {
+            currentResolve(null);
+          }
+          hide();
+        }
+
+        // Event listeners
+        btnPromptOk.addEventListener('click', () => {
+          SoundSynth.playClick();
+          handleOk();
+        });
+
+        btnPromptCancel.addEventListener('click', () => {
+          SoundSynth.playClick();
+          handleCancel();
+        });
+
+        promptInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            SoundSynth.playClick();
+            handleOk();
+          } else if (e.key === 'Escape') {
+            SoundSynth.playClick();
+            handleCancel();
+          }
+        });
+
+        // Close when clicking overlay backdrop
+        promptOverlay.addEventListener('click', (e) => {
+          if (e.target === promptOverlay) {
+            SoundSynth.playClick();
+            handleCancel();
+          }
+        });
+
+        return { show };
+      })();
 
       // SVG code templates
       const svgX = `
@@ -1521,7 +2002,7 @@
             boardCells[idx].style.color = outcome.winner === 'X' ? 'var(--color-cyan)' : 'var(--color-magenta)';
           });
 
-          const winnerLabel = outcome.winner === 'X' ? 'Player X' : (GameState.getAIMode() ? 'Smart AI' : 'Player O');
+          const winnerLabel = outcome.winner === 'X' ? customPlayerXName : (GameState.getAIMode() ? 'Smart AI' : customPlayerOName);
           const spanClass = outcome.winner === 'X' ? 'winner-text-x' : 'winner-text-o';
           modalBody.innerHTML = `<span class="${spanClass}">${winnerLabel}</span> Wins!`;
 
@@ -1600,7 +2081,8 @@
 
       function handleModeToggle(toAI) {
         GameState.toggleMode(toAI);
-        labelO.textContent = toAI ? 'Smart AI' : 'Player O';
+        labelO.textContent = toAI ? 'Smart AI' : customPlayerOName;
+        labelX.textContent = customPlayerXName;
 
         if (toAI) {
           diffContainer.classList.add('visible');
@@ -1651,19 +2133,11 @@
       }
 
       // Theme toggle bindings
-      const themeDark = document.getElementById('theme-dark');
-      const themeLight = document.getElementById('theme-light');
-
-      if (themeDark) {
-        themeDark.addEventListener('click', () => {
+      const btnThemeToggle = document.getElementById('btn-theme-toggle');
+      if (btnThemeToggle) {
+        btnThemeToggle.addEventListener('click', () => {
           SoundSynth.playClick();
-          Theme.applyTheme('dark');
-        });
-      }
-      if (themeLight) {
-        themeLight.addEventListener('click', () => {
-          SoundSynth.playClick();
-          Theme.applyTheme('light');
+          Theme.toggleTheme();
         });
       }
 
@@ -1680,6 +2154,31 @@
             handleCellClick(idx);
           }
         });
+      });
+
+      // Player name customization bindings
+      scoreBoxX.addEventListener('click', () => {
+        if (!GameState.getAIMode()) {
+          SoundSynth.playClick();
+          CustomPrompt.show("Enter name for Player X:", customPlayerXName).then((newName) => {
+            if (newName !== null && newName.trim() !== "") {
+              customPlayerXName = newName.trim();
+              labelX.textContent = customPlayerXName;
+            }
+          });
+        }
+      });
+
+      scoreBoxO.addEventListener('click', () => {
+        if (!GameState.getAIMode()) {
+          SoundSynth.playClick();
+          CustomPrompt.show("Enter name for Player O:", customPlayerOName).then((newName) => {
+            if (newName !== null && newName.trim() !== "") {
+              customPlayerOName = newName.trim();
+              labelO.textContent = customPlayerOName;
+            }
+          });
+        }
       });
 
       modePvP.addEventListener('click', () => {
@@ -1763,6 +2262,27 @@
       // Initial setup
       resetUIPresentation();
       updateScoreDisplay();
+
+      // Logo interactive hover animation alternating
+      const logoLink = document.querySelector('.logo-container');
+      const logoSvg = document.querySelector('.header-logo');
+      if (logoLink && logoSvg) {
+        let hoverCount = 0;
+        logoLink.addEventListener('mouseenter', () => {
+          if (hoverCount % 2 === 0) {
+            logoSvg.classList.add('animate-o');
+            logoSvg.classList.remove('animate-x');
+          } else {
+            logoSvg.classList.add('animate-x');
+            logoSvg.classList.remove('animate-o');
+          }
+          hoverCount++;
+        });
+
+        logoLink.addEventListener('mouseleave', () => {
+          logoSvg.classList.remove('animate-o', 'animate-x');
+        });
+      }
     });
   </script>
 </body>
