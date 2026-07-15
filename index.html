@@ -407,6 +407,8 @@
       .top-premium-panel {
         position: relative;
         top: 0;
+        left: 0;
+        right: 0;
         width: 100%;
         margin-bottom: 20px;
         border-radius: 15px;
@@ -808,9 +810,15 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
       overflow: hidden;
       user-select: none;
+    }
+
+    .cell:active:not(.filled) {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.05);
+      transition: transform 0.05s ease;
     }
 
     .cell::before {
@@ -823,15 +831,17 @@
       transition: opacity 0.2s ease;
     }
 
-    .cell:hover:not(.filled) {
-      background: var(--glass-bg-hover);
-      border-color: var(--glass-border-active);
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    }
+    @media (hover: hover) {
+      .cell:hover:not(.filled) {
+        background: var(--glass-bg-hover);
+        border-color: var(--glass-border-active);
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
 
-    .cell:hover:not(.filled)::before {
-      opacity: 1;
+      .cell:hover:not(.filled)::before {
+        opacity: 1;
+      }
     }
 
     .cell.filled {
@@ -911,12 +921,12 @@
       stroke-width: 10;
       stroke-dasharray: 100;
       stroke-dashoffset: 100;
-      animation: draw-line 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation: draw-line 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       filter: drop-shadow(0 0 6px var(--color-cyan-glow));
     }
 
     .x-line-2 {
-      animation-delay: 0.15s;
+      animation-delay: 0.08s;
     }
 
     .o-circle {
@@ -924,7 +934,7 @@
       stroke-width: 10;
       stroke-dasharray: 260;
       stroke-dashoffset: 260;
-      animation: draw-line 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation: draw-line 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       filter: drop-shadow(0 0 6px var(--color-magenta-glow));
     }
 
@@ -958,15 +968,20 @@
       gap: 8px;
     }
 
-    .btn-action:hover {
-      background: var(--glass-bg-hover);
-      border-color: var(--glass-border-active);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    @media (hover: hover) {
+      .btn-action:hover {
+        background: var(--glass-bg-hover);
+        border-color: var(--glass-border-active);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
     }
 
-    .btn-action:active {
-      transform: translateY(0);
+    .btn-action:active,
+    .btn-toggle:active,
+    .icon-btn:active {
+      transform: scale(0.96) !important;
+      transition: transform 0.05s ease;
     }
 
     .btn-action.primary {
