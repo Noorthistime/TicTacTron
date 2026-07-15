@@ -113,6 +113,11 @@
     }
 
     /* Reset & Base Styles */
+    html {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
     *,
     *::before,
     *::after {
@@ -397,12 +402,13 @@
 
     @media (max-width: 900px) {
       body {
-        padding-top: 175px;
+        padding: 20px 15px 15px 15px;
       }
       .top-premium-panel {
-        top: 10px;
-        left: 15px;
-        right: 15px;
+        position: relative;
+        top: 0;
+        width: 100%;
+        margin-bottom: 20px;
         border-radius: 15px;
         flex-direction: column;
         gap: 12px;
@@ -415,12 +421,75 @@
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
       body {
-        padding-top: 215px;
+        padding: 20px 12px 12px 12px;
+      }
+      .top-premium-panel {
+        padding: 12px 10px;
+        gap: 8px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+      }
+      .logo-text {
+        font-size: 1.3rem;
       }
       .header-options {
         gap: 10px;
+        justify-content: space-around;
+      }
+      .option-item {
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+      .option-label {
+        font-size: 0.65rem;
+      }
+      .btn-toggle {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+      }
+      .icon-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+      }
+      .scoreboard {
+        gap: 8px;
+      }
+      .score-box {
+        padding: 8px 4px;
+        border-radius: 12px;
+      }
+      .score-label {
+        font-size: 0.65rem;
+        max-width: 90%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .player-marker-label {
+        font-size: 0.65rem;
+      }
+      .score-val {
+        font-size: 1.15rem;
+      }
+      .player-indicator {
+        font-size: 0.7rem;
+        gap: 4px;
+      }
+      .indicator-dot {
+        width: 6px;
+        height: 6px;
+      }
+      .btn-action-container {
+        gap: 8px;
+      }
+      .btn-action {
+        padding: 10px;
+        font-size: 0.85rem;
+        border-radius: 10px;
       }
     }
 
@@ -925,6 +994,7 @@
       pointer-events: none;
       transition: opacity 0.35s ease;
       padding: 20px;
+      overflow-y: auto;
     }
 
     .overlay.active {
@@ -1025,8 +1095,17 @@
     /* Responsive adjustments */
     @media (max-height: 700px) {
       body {
+        padding: 90px 20px 10px 20px;
+      }
+    }
+
+    @media (max-height: 700px) and (max-width: 900px) {
+      body {
         padding: 10px;
       }
+    }
+
+    @media (max-height: 700px) {
 
       .app-container {
         gap: 12px;
