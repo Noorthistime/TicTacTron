@@ -1718,6 +1718,117 @@
     })();
 
     /* ---------------------------------------------------- */
+    /* 2.5. CONSTELLATION BACKGROUND MODULE                 */
+    /* ---------------------------------------------------- */
+    const Constellation = (() => {
+      const canvas = document.getElementById('constellation-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let animationFrameId = null;
+      let active = false;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function getConstellationColor() {
+        const theme = document.documentElement.dataset.theme || 'dark';
+        // In dark mode alien: White/Greenish dots
+        // In light mode alien: Dark Green/Black dots
+        return theme === 'light' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.4)';
+      }
+
+      class Node {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 1.5;
+          this.vy = (Math.random() - 0.5) * 1.5;
+          this.radius = Math.random() * 2 + 1;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          
+          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+
+        draw(color) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.fill();
+        }
+      }
+
+      function initNodes() {
+        resizeCanvas();
+        particles = [];
+        const numNodes = Math.floor((canvas.width * canvas.height) / 12000); // density
+        for (let i = 0; i < numNodes; i++) {
+          particles.push(new Node());
+        }
+      }
+
+      function loop() {
+        if (!active) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const color = getConstellationColor();
+
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw(color);
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 120) {
+              ctx.beginPath();
+              let alpha = (1 - dist/120) * 0.3;
+              ctx.strokeStyle = color.replace('0.4', alpha.toFixed(2));
+              ctx.lineWidth = 1;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        animationFrameId = requestAnimationFrame(loop);
+      }
+
+      function start() {
+        if (active) return;
+        active = true;
+        initNodes();
+        loop();
+      }
+
+      function stop() {
+        active = false;
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      window.addEventListener('resize', () => {
+        if (active) {
+          resizeCanvas();
+          initNodes();
+        }
+      });
+
+      return { start, stop };
+    })();
+
+    /* ---------------------------------------------------- */
     /* 3. GAME STATE & LOGIC ENGINE                         */
     /* ---------------------------------------------------- */
     const GameState = (() => {
