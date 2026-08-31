@@ -1591,7 +1591,16 @@
       let active = false;
 
       function getConfettiColors() {
+        const isAlien = document.documentElement.hasAttribute('data-alien');
         const theme = document.documentElement.dataset.theme || 'dark';
+
+        if (isAlien) {
+          if (theme === 'light') {
+             return ['#16a34a', '#22c55e', '#000000', '#4ade80'];
+          } else {
+             return ['#22c55e', '#ffffff', '#4ade80', '#16a34a'];
+          }
+        }
 
         if (theme === 'light') {
           // Light mode: warm red/orange accents + light blues
