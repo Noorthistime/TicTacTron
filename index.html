@@ -169,12 +169,12 @@
 
     /* Apple Theme Overrides */
     :root[data-apple="true"] {
-      --bg-gradient: #111111;
-      --glass-bg: rgba(60, 60, 65, 0.45);
-      --glass-bg-hover: rgba(80, 80, 85, 0.55);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --glass-border-active: rgba(255, 255, 255, 0.35);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      --bg-gradient: radial-gradient(circle at 30% 20%, #3a3a40 0%, #111111 80%);
+      --glass-bg: rgba(80, 80, 85, 0.45);
+      --glass-bg-hover: rgba(100, 100, 105, 0.55);
+      --glass-border: rgba(220, 220, 225, 0.25);
+      --glass-border-active: rgba(240, 240, 245, 0.45);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
       --surface-soft: rgba(70, 70, 75, 0.45);
       --surface-board: rgba(40, 40, 45, 0.45);
       --color-text-main: #ffffff;
@@ -188,34 +188,34 @@
       --accent-o-glow: rgba(142, 142, 147, 0.40);
       --accent-o-bg: rgba(142, 142, 147, 0.15);
       
-      --header-glow-color-1: rgba(255, 255, 255, 0.15);
-      --header-glow-color-2: rgba(142, 142, 147, 0.10);
-      --header-border-glow: rgba(255, 255, 255, 0.3);
+      --header-glow-color-1: rgba(220, 220, 225, 0.25);
+      --header-glow-color-2: rgba(142, 142, 147, 0.15);
+      --header-border-glow: rgba(240, 240, 245, 0.4);
     }
 
     :root[data-theme="light"][data-apple="true"] {
-      --bg-gradient: #f5f5f7;
+      --bg-gradient: radial-gradient(ellipse at top left, #ffffff 0%, #a1a1a6 70%, #7c7c80 100%);
       --glass-bg: rgba(255, 255, 255, 0.65);
       --glass-bg-hover: rgba(255, 255, 255, 0.85);
-      --glass-border: rgba(0, 0, 0, 0.15);
-      --glass-border-active: rgba(0, 0, 0, 0.3);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      --surface-soft: rgba(240, 240, 240, 0.6);
-      --surface-board: rgba(230, 230, 230, 0.6);
+      --glass-border: rgba(230, 230, 235, 0.9);
+      --glass-border-active: rgba(255, 255, 255, 1);
+      --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+      --surface-soft: rgba(245, 245, 250, 0.65);
+      --surface-board: rgba(235, 235, 240, 0.65);
       --color-text-main: #1d1d1f;
-      --color-text-muted: #86868b;
+      --color-text-muted: #48484a;
       
-      --accent-x: #000000;
-      --accent-x-glow: rgba(0, 0, 0, 0.30);
-      --accent-x-bg: rgba(0, 0, 0, 0.10);
+      --accent-x: #1d1d1f;
+      --accent-x-glow: rgba(29, 29, 31, 0.25);
+      --accent-x-bg: rgba(29, 29, 31, 0.10);
 
       --accent-o: #8e8e93;
-      --accent-o-glow: rgba(142, 142, 147, 0.30);
-      --accent-o-bg: rgba(142, 142, 147, 0.10);
+      --accent-o-glow: rgba(142, 142, 147, 0.35);
+      --accent-o-bg: rgba(142, 142, 147, 0.15);
 
-      --header-glow-color-1: rgba(0, 0, 0, 0.15);
-      --header-glow-color-2: rgba(142, 142, 147, 0.10);
-      --header-border-glow: rgba(0, 0, 0, 0.2);
+      --header-glow-color-1: rgba(255, 255, 255, 0.6);
+      --header-glow-color-2: rgba(209, 209, 214, 0.4);
+      --header-border-glow: rgba(255, 255, 255, 0.9);
     }
 
     body {
@@ -925,8 +925,9 @@
 
     :root[data-apple="true"] .game-board,
     :root[data-apple="true"] .btn-action {
-      backdrop-filter: blur(24px) saturate(150%);
-      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      backdrop-filter: blur(32px) saturate(180%);
+      -webkit-backdrop-filter: blur(32px) saturate(180%);
+      border-width: 1.5px;
     }
 
     .cell {
