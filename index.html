@@ -1456,6 +1456,31 @@
 
       return { init, applyTheme, toggleTheme };
     })();
+
+    /* ---------------------------------------------------- */
+    /* 0.5. ALIEN THEME CONTROLLER                          */
+    /* ---------------------------------------------------- */
+    const AlienTheme = (() => {
+      let isAlien = false;
+
+      function toggleAlien() {
+        isAlien = !isAlien;
+        const btn = document.getElementById('btn-theme-alien');
+        if (isAlien) {
+          document.documentElement.setAttribute('data-alien', 'true');
+          btn.classList.add('active');
+        } else {
+          document.documentElement.removeAttribute('data-alien');
+          btn.classList.remove('active');
+        }
+      }
+
+      function getState() {
+        return isAlien;
+      }
+
+      return { toggleAlien, getState };
+    })();
     /* ---------------------------------------------------- */
     /* 1. AUDIO SYNTHESIZER MODULE (Web Audio API)          */
     /* ---------------------------------------------------- */
@@ -2297,6 +2322,15 @@
         btnThemeToggle.addEventListener('click', () => {
           SoundSynth.playClick();
           Theme.toggleTheme();
+        });
+      }
+
+      // Alien Theme toggle bindings
+      const btnThemeAlien = document.getElementById('btn-theme-alien');
+      if (btnThemeAlien) {
+        btnThemeAlien.addEventListener('click', () => {
+          SoundSynth.playClick();
+          AlienTheme.toggleAlien();
         });
       }
 
