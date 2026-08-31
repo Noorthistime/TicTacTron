@@ -1469,9 +1469,11 @@
         if (isAlien) {
           document.documentElement.setAttribute('data-alien', 'true');
           btn.classList.add('active');
+          Constellation.start();
         } else {
           document.documentElement.removeAttribute('data-alien');
           btn.classList.remove('active');
+          Constellation.stop();
         }
       }
 
