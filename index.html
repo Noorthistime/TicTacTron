@@ -532,6 +532,22 @@
       pointer-events: none;
     }
 
+    #constellation-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    :root[data-alien="true"] #constellation-canvas {
+      opacity: 1;
+    }
+
     /* App Container */
     .app-container {
       width: 100%;
@@ -662,6 +678,12 @@
       width: 20px;
       height: 20px;
       fill: currentColor;
+    }
+
+    #btn-theme-alien.active {
+      color: #22c55e;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+      border-color: rgba(34, 197, 94, 0.5);
     }
 
     /* Scoreboard Dashboard */
