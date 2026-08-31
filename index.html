@@ -61,7 +61,6 @@
       --glass-border: rgba(255, 255, 255, 0.08);
       --glass-border-active: rgba(255, 255, 255, 0.22);
       --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      --glass-blur: blur(16px);
     }
 
     :root[data-theme="light"] {
@@ -166,6 +165,57 @@
       --header-glow-color-1: rgba(22, 163, 74, 0.20);
       --header-glow-color-2: rgba(0, 0, 0, 0.10);
       --header-border-glow: rgba(22, 163, 74, 0.25);
+    }
+
+    /* Apple Theme Overrides */
+    :root[data-apple="true"] {
+      --bg-gradient: #111111;
+      --glass-bg: rgba(60, 60, 65, 0.45);
+      --glass-bg-hover: rgba(80, 80, 85, 0.55);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --glass-border-active: rgba(255, 255, 255, 0.35);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      --surface-soft: rgba(70, 70, 75, 0.45);
+      --surface-board: rgba(40, 40, 45, 0.45);
+      --color-text-main: #ffffff;
+      --color-text-muted: #a1a1a6;
+      
+      --accent-x: #ffffff;
+      --accent-x-glow: rgba(255, 255, 255, 0.40);
+      --accent-x-bg: rgba(255, 255, 255, 0.15);
+
+      --accent-o: #8e8e93;
+      --accent-o-glow: rgba(142, 142, 147, 0.40);
+      --accent-o-bg: rgba(142, 142, 147, 0.15);
+      
+      --header-glow-color-1: rgba(255, 255, 255, 0.15);
+      --header-glow-color-2: rgba(142, 142, 147, 0.10);
+      --header-border-glow: rgba(255, 255, 255, 0.3);
+    }
+
+    :root[data-theme="light"][data-apple="true"] {
+      --bg-gradient: #f5f5f7;
+      --glass-bg: rgba(255, 255, 255, 0.65);
+      --glass-bg-hover: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(0, 0, 0, 0.15);
+      --glass-border-active: rgba(0, 0, 0, 0.3);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      --surface-soft: rgba(240, 240, 240, 0.6);
+      --surface-board: rgba(230, 230, 230, 0.6);
+      --color-text-main: #1d1d1f;
+      --color-text-muted: #86868b;
+      
+      --accent-x: #000000;
+      --accent-x-glow: rgba(0, 0, 0, 0.30);
+      --accent-x-bg: rgba(0, 0, 0, 0.10);
+
+      --accent-o: #8e8e93;
+      --accent-o-glow: rgba(142, 142, 147, 0.30);
+      --accent-o-bg: rgba(142, 142, 147, 0.10);
+
+      --header-glow-color-1: rgba(0, 0, 0, 0.15);
+      --header-glow-color-2: rgba(142, 142, 147, 0.10);
+      --header-border-glow: rgba(0, 0, 0, 0.2);
     }
 
     body {
@@ -569,7 +619,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 5;
+      z-index: 0;
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.8s ease;
@@ -583,7 +633,7 @@
     .app-container {
       width: 100%;
       max-width: 440px;
-      z-index: 1;
+      z-index: 10;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -711,10 +761,8 @@
       fill: currentColor;
     }
 
-    #btn-theme-alien.active {
-      color: #22c55e;
-      box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
-      border-color: rgba(34, 197, 94, 0.5);
+    #btn-theme-cycle.active {
+      background: var(--glass-border-active);
     }
 
     /* Scoreboard Dashboard */
@@ -727,8 +775,8 @@
     }
 
     .scoreboard:hover {
-      border-color: rgba(249, 115, 22, 0.25);
-      box-shadow: var(--glass-shadow), 0 0 15px rgba(249, 115, 22, 0.15), 0 0 25px rgba(239, 68, 68, 0.08);
+      border-color: var(--header-border-glow);
+      box-shadow: var(--glass-shadow), 0 0 15px var(--header-glow-color-1), 0 0 25px var(--header-glow-color-2);
       transform: translateY(-1px);
     }
 
@@ -752,23 +800,23 @@
     }
 
     #score-box-x:hover {
-      box-shadow: 0 0 12px var(--color-cyan-glow);
-      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 12px var(--accent-x-glow);
+      border-color: var(--accent-x);
     }
 
     #score-box-o:hover {
-      box-shadow: 0 0 12px var(--color-magenta-glow);
-      border-color: rgba(239, 68, 68, 0.4);
+      box-shadow: 0 0 12px var(--accent-o-glow);
+      border-color: var(--accent-o);
     }
 
     .score-box.active-x {
-      border-color: var(--color-cyan);
-      box-shadow: 0 0 15px var(--color-cyan-glow);
+      border-color: var(--accent-x);
+      box-shadow: 0 0 15px var(--accent-x-glow);
     }
 
     .score-box.active-o {
-      border-color: var(--color-magenta);
-      box-shadow: 0 0 15px var(--color-magenta-glow);
+      border-color: var(--accent-o);
+      box-shadow: 0 0 15px var(--accent-o-glow);
     }
 
     .player-marker-label {
@@ -782,11 +830,30 @@
     }
 
     .player-marker-label.color-x {
-      color: var(--color-cyan);
+      color: var(--accent-x);
     }
 
     .player-marker-label.color-o {
-      color: var(--color-magenta);
+      color: var(--accent-o);
+    }
+
+    /* Winning Pulse Animations */
+    .winning-x {
+      animation: winning-pulse-x 2s infinite ease-in-out;
+    }
+    
+    .winning-o {
+      animation: winning-pulse-o 2s infinite ease-in-out;
+    }
+
+    @keyframes winning-pulse-x {
+      0%, 100% { box-shadow: 0 0 5px var(--accent-x-bg); border-color: var(--glass-border); }
+      50% { box-shadow: 0 0 20px var(--accent-x-glow); border-color: var(--accent-x); }
+    }
+
+    @keyframes winning-pulse-o {
+      0%, 100% { box-shadow: 0 0 5px var(--accent-o-bg); border-color: var(--glass-border); }
+      50% { box-shadow: 0 0 20px var(--accent-o-glow); border-color: var(--accent-o); }
     }
 
     .score-label {
@@ -849,9 +916,17 @@
       aspect-ratio: 1 / 1;
       width: 100%;
       background: var(--surface-board);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-radius: 24px;
       padding: 12px;
       border: 1px solid var(--glass-border);
+    }
+
+    :root[data-apple="true"] .game-board,
+    :root[data-apple="true"] .btn-action {
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
     }
 
     .cell {
@@ -1006,6 +1081,8 @@
 
     .btn-action {
       background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--glass-border);
       color: var(--color-text-main);
       padding: 12px;
@@ -1301,13 +1378,22 @@
           </svg>
         </button>
 
-        <!-- Alien Theme Toggle -->
-        <button id="btn-theme-alien" class="icon-btn" aria-label="Toggle Alien Theme" title="Toggle Alien Theme" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 12px; margin-left: 8px;">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Cyclic Theme Toggle -->
+        <button id="btn-theme-cycle" class="icon-btn" aria-label="Cycle Themes" title="Cycle Themes" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 12px; margin-left: 8px;">
+          <!-- Default SVG: Star/Sparkle -->
+          <svg id="svg-cycle-default" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <!-- Alien SVG -->
+          <svg id="svg-cycle-alien" style="display: none;" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2a7 7 0 0 0-7 7c0 2 1 3.5 2.5 5 1.5 1.5 3.5 2 4.5 2s3-.5 4.5-2c1.5-1.5 2.5-3 2.5-5a7 7 0 0 0-7-7z"></path>
             <line x1="9" y1="10" x2="9.01" y2="10" stroke-width="3"></line>
             <line x1="15" y1="10" x2="15.01" y2="10" stroke-width="3"></line>
             <path d="M10 14h4"></path>
+          </svg>
+          <!-- Apple/Premium SVG -->
+          <svg id="svg-cycle-apple" style="display: none;" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M15.4,8.5 c-0.1-2.2,1.8-3.3,1.9-3.4 c-1-1.5-2.6-1.7-3.2-1.7 c-1.4-0.1-2.7,0.8-3.4,0.8 c-0.7,0-1.8-0.8-2.9-0.8 c-1.5,0-2.9,0.9-3.6,2.2 c-1.6,2.7-0.4,6.7,1.1,8.9 c0.7,1.1,1.6,2.3,2.8,2.3 c1.1-0.1,1.6-0.7,2.9-0.7 c1.3,0,1.7,0.7,2.9,0.7 c1.2,0,2-1.1,2.7-2.2 C17.3,13.6,15.5,10.6,15.4,8.5 M12.8,2.7 c0.6-0.7,1-1.7,0.9-2.7 c-0.9,0-2,0.6-2.6,1.3 c-0.5,0.6-1,1.6-0.9,2.6 C11.3,3.9,12.3,3.3,12.8,2.7" />
           </svg>
         </button>
       </div>
@@ -1430,10 +1516,13 @@
         return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
 
-      function applyTheme(theme) {
-        document.documentElement.dataset.theme = theme;
-        localStorage.setItem(STORAGE_KEY, theme);
+      function applyTheme(themeName) {
+        document.documentElement.setAttribute('data-theme', themeName);
+        localStorage.setItem('tictactron_theme', themeName);
+        updateIcons(themeName);
+      }
 
+      function updateIcons(theme) {
         const svgSun = document.getElementById('svg-theme-sun');
         const svgMoon = document.getElementById('svg-theme-moon');
         if (svgSun && svgMoon) {
@@ -1458,30 +1547,58 @@
     })();
 
     /* ---------------------------------------------------- */
-    /* 0.5. ALIEN THEME CONTROLLER                          */
+    /* 0.5. PREMIUM THEMES CONTROLLER                       */
     /* ---------------------------------------------------- */
-    const AlienTheme = (() => {
-      let isAlien = false;
+    const PremiumThemes = (() => {
+      let currentTheme = 'default';
 
-      function toggleAlien() {
-        isAlien = !isAlien;
-        const btn = document.getElementById('btn-theme-alien');
-        if (isAlien) {
-          document.documentElement.setAttribute('data-alien', 'true');
-          btn.classList.add('active');
-          Constellation.start();
+      function cycleTheme() {
+        const btn = document.getElementById('btn-theme-cycle');
+        const svgDefault = document.getElementById('svg-cycle-default');
+        const svgAlien = document.getElementById('svg-cycle-alien');
+        const svgApple = document.getElementById('svg-cycle-apple');
+
+        // Cycle logic
+        if (currentTheme === 'default') {
+          currentTheme = 'alien';
+        } else if (currentTheme === 'alien') {
+          currentTheme = 'apple';
         } else {
-          document.documentElement.removeAttribute('data-alien');
-          btn.classList.remove('active');
-          Constellation.stop();
+          currentTheme = 'default';
         }
+
+        // Apply attributes and animations
+        document.documentElement.removeAttribute('data-alien');
+        document.documentElement.removeAttribute('data-apple');
+        if (btn) btn.classList.remove('active');
+        if (typeof Constellation !== 'undefined') Constellation.stop();
+
+        if (currentTheme === 'alien') {
+          document.documentElement.setAttribute('data-alien', 'true');
+          if (typeof Constellation !== 'undefined') Constellation.start();
+        } else if (currentTheme === 'apple') {
+          document.documentElement.setAttribute('data-apple', 'true');
+        }
+
+        if (btn && currentTheme !== 'default') {
+          btn.classList.add('active');
+        }
+
+        // Update Icons
+        if (svgDefault) svgDefault.style.display = 'none';
+        if (svgAlien) svgAlien.style.display = 'none';
+        if (svgApple) svgApple.style.display = 'none';
+
+        if (currentTheme === 'default' && svgDefault) svgDefault.style.display = 'block';
+        if (currentTheme === 'alien' && svgAlien) svgAlien.style.display = 'block';
+        if (currentTheme === 'apple' && svgApple) svgApple.style.display = 'block';
       }
 
       function getState() {
-        return isAlien;
+        return currentTheme;
       }
 
-      return { toggleAlien, getState };
+      return { cycleTheme, getState };
     })();
     /* ---------------------------------------------------- */
     /* 1. AUDIO SYNTHESIZER MODULE (Web Audio API)          */
@@ -1592,7 +1709,12 @@
 
       function getConfettiColors() {
         const isAlien = document.documentElement.hasAttribute('data-alien');
+        const isApple = document.documentElement.hasAttribute('data-apple');
         const theme = document.documentElement.dataset.theme || 'dark';
+
+        if (isApple) {
+          return ['#ffffff', '#e5e5ea', '#8e8e93', '#1c1c1e', '#000000'];
+        }
 
         if (isAlien) {
           if (theme === 'light') {
@@ -1754,8 +1876,8 @@
         constructor() {
           this.x = Math.random() * canvas.width;
           this.y = Math.random() * canvas.height;
-          this.vx = (Math.random() - 0.5) * 1.5;
-          this.vy = (Math.random() - 0.5) * 1.5;
+          this.vx = (Math.random() - 0.5) * 0.7;
+          this.vy = (Math.random() - 0.5) * 0.7;
           this.radius = Math.random() * 2 + 1;
         }
 
@@ -1838,6 +1960,8 @@
 
       return { start, stop };
     })();
+
+
 
     /* ---------------------------------------------------- */
     /* 3. GAME STATE & LOGIC ENGINE                         */
@@ -2337,6 +2461,15 @@
         valX.textContent = scores.scoreX;
         valO.textContent = scores.scoreO;
         valDraw.textContent = scores.draws;
+
+        scoreBoxX.classList.remove('winning-x');
+        scoreBoxO.classList.remove('winning-o');
+
+        if (scores.scoreX > scores.scoreO) {
+          scoreBoxX.classList.add('winning-x');
+        } else if (scores.scoreO > scores.scoreX) {
+          scoreBoxO.classList.add('winning-o');
+        }
       }
 
       function updateTurnIndicators() {
@@ -2447,12 +2580,12 @@
         });
       }
 
-      // Alien Theme toggle bindings
-      const btnThemeAlien = document.getElementById('btn-theme-alien');
-      if (btnThemeAlien) {
-        btnThemeAlien.addEventListener('click', () => {
+      // Cyclic Theme toggle binding
+      const btnThemeCycle = document.getElementById('btn-theme-cycle');
+      if (btnThemeCycle) {
+        btnThemeCycle.addEventListener('click', () => {
           SoundSynth.playClick();
-          AlienTheme.toggleAlien();
+          PremiumThemes.cycleTheme();
         });
       }
 
