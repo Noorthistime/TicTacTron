@@ -21,17 +21,17 @@
 
   <!-- CSS Styles -->
   <style>
-    /* Custom Orange Cursor for IDK Space */
+    /* Custom Red Cursor for IDK Space */
     :root:not([data-apple="true"]):not([data-alien="true"]),
     :root:not([data-apple="true"]):not([data-alien="true"]) body {
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M4 2 L20 8 L13 13 L8 20 Z" fill="%23f97316" stroke="%23000000" stroke-width="1.5" stroke-linejoin="round"/></svg>') 4 2, auto;
+      cursor: url('idk_space_cursor_small.png'), auto;
     }
     :root:not([data-apple="true"]):not([data-alien="true"]) button,
     :root:not([data-apple="true"]):not([data-alien="true"]) .cell,
     :root:not([data-apple="true"]):not([data-alien="true"]) a,
     :root:not([data-apple="true"]):not([data-alien="true"]) .icon-btn,
     :root:not([data-apple="true"]):not([data-alien="true"]) .btn-toggle {
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M4 2 L20 8 L13 13 L8 20 Z" fill="%23f97316" stroke="%23ffffff" stroke-width="1.5" stroke-linejoin="round"/></svg>') 4 2, pointer !important;
+      cursor: url('idk_space_cursor_small.png'), pointer !important;
     }
 
     /* Custom 3D Geometric Green Cursor for Alienware */
@@ -49,14 +49,14 @@
 
     /* IDK Space Thematic Header Accents */
     :root:not([data-apple="true"]):not([data-alien="true"]) .icon-btn:hover {
-      color: #f97316 !important;
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3) !important;
+      color: #dc2626 !important;
+      box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3) !important;
     }
     :root[data-theme="light"]:not([data-apple="true"]):not([data-alien="true"]) #btn-theme-toggle svg {
-      stroke: #f97316;
+      stroke: #dc2626;
     }
     :root:not([data-apple="true"]):not([data-alien="true"]) .btn-toggle.active {
-      color: #ea580c;
+      color: #dc2626;
     }
 
     /* Design Tokens / Custom CSS Properties */
@@ -81,10 +81,10 @@
       --result-card-bg: rgba(30, 41, 59, 0.75);
 
       /* Accents */
-      --accent-x: #f97316;
-      /* subtle orange for X */
-      --accent-x-glow: rgba(249, 115, 22, 0.30);
-      --accent-x-bg: rgba(249, 115, 22, 0.10);
+      --accent-x: #dc2626;
+      /* subtle red for X */
+      --accent-x-glow: rgba(220, 38, 38, 0.30);
+      --accent-x-bg: rgba(220, 38, 38, 0.10);
 
       --accent-o: #ef4444;
       /* red for O */
@@ -109,9 +109,9 @@
 
       --glass-bg: rgba(255, 255, 255, 0.75);
       --glass-bg-hover: rgba(255, 255, 255, 0.95);
-      --glass-border: rgba(249, 115, 22, 0.25);
-      --glass-border-active: rgba(249, 115, 22, 0.6);
-      --glass-shadow: 0 12px 36px rgba(249, 115, 22, 0.12);
+      --glass-border: rgba(220, 38, 38, 0.25);
+      --glass-border-active: rgba(220, 38, 38, 0.6);
+      --glass-shadow: 0 12px 36px rgba(220, 38, 38, 0.12);
 
       /* Light surfaces */
       --surface-soft: rgba(255, 255, 255, 0.85);
@@ -121,17 +121,17 @@
       --overlay-bg: rgba(67, 20, 7, 0.35);
       --result-card-bg: rgba(255, 255, 255, 0.85);
 
-      /* X = orange, O = red (matching dark mode) */
-      --accent-x: #ea580c;
-      --accent-x-glow: rgba(234, 88, 12, 0.30);
-      --accent-x-bg: rgba(234, 88, 12, 0.15);
+      /* X = red, O = red (matching dark mode) */
+      --accent-x: #dc2626;
+      --accent-x-glow: rgba(220, 38, 38, 0.30);
+      --accent-x-bg: rgba(220, 38, 38, 0.15);
 
       --accent-o: #ef4444;
       --accent-o-glow: rgba(239, 68, 68, 0.30);
       --accent-o-bg: rgba(239, 68, 68, 0.10);
 
-      --accent-blue: #ea580c;
-      --accent-blue-glow: rgba(234, 88, 12, 0.22);
+      --accent-blue: #dc2626;
+      --accent-blue-glow: rgba(220, 38, 38, 0.22);
     }
 
     /* Backward-compatible alias variables used by existing CSS.
@@ -164,14 +164,14 @@
     }
 
     :root {
-      --header-glow-color-1: rgba(249, 115, 22, 0.25);
+      --header-glow-color-1: rgba(220, 38, 38, 0.25);
       --header-glow-color-2: rgba(239, 68, 68, 0.20);
-      --header-border-glow: rgba(249, 115, 22, 0.35);
+      --header-border-glow: rgba(220, 38, 38, 0.35);
     }
     :root[data-theme="light"] {
-      --header-glow-color-1: rgba(249, 115, 22, 0.18);
+      --header-glow-color-1: rgba(220, 38, 38, 0.18);
       --header-glow-color-2: rgba(239, 68, 68, 0.12);
-      --header-border-glow: rgba(249, 115, 22, 0.25);
+      --header-border-glow: rgba(220, 38, 38, 0.25);
     }
 
     /* Alien Theme Overrides */
@@ -311,7 +311,7 @@
     .top-premium-panel:hover {
       transform: translateY(2px);
       border-color: var(--accent-x);
-      box-shadow: var(--glass-shadow), 0 10px 30px rgba(249, 115, 22, 0.15), 0 0 20px rgba(239, 68, 68, 0.1);
+      box-shadow: var(--glass-shadow), 0 10px 30px rgba(220, 38, 38, 0.15), 0 0 20px rgba(239, 68, 68, 0.1);
     }
 
     /* Hover animations for panel icons/buttons */
@@ -1829,13 +1829,13 @@
         }
 
         if (theme === 'light') {
-          // Light mode: warm red/orange accents + light blues
+          // Light mode: warm red accents + light blues
           return [
-            getComputedStyle(document.documentElement).getPropertyValue('--accent-x').trim(), // orange (X)
+            getComputedStyle(document.documentElement).getPropertyValue('--accent-x').trim(), // red (X)
             getComputedStyle(document.documentElement).getPropertyValue('--accent-o').trim(), // red (O)
             '#60a5fa', // light blue-ish
             '#f87171', // soft red
-            '#f97316'  // orange accent
+            '#dc2626'  // bold red accent
           ].filter(Boolean);
         }
 
@@ -2161,11 +2161,11 @@
 
           let color = '';
           if (isLight) {
-            // 80% orange, 20% black
-            color = s.isVariant ? `rgba(15, 23, 42, ${alpha})` : `rgba(234, 88, 12, ${alpha})`;
+            // 80% red, 20% black
+            color = s.isVariant ? `rgba(15, 23, 42, ${alpha})` : `rgba(220, 38, 38, ${alpha})`;
           } else {
-            // 80% white, 20% orange
-            color = s.isVariant ? `rgba(249, 115, 22, ${alpha})` : `rgba(255, 255, 255, ${alpha})`;
+            // 80% white, 20% red
+            color = s.isVariant ? `rgba(220, 38, 38, ${alpha})` : `rgba(255, 255, 255, ${alpha})`;
           }
 
           ctx.strokeStyle = color;
