@@ -21,6 +21,31 @@
 
   <!-- CSS Styles -->
   <style>
+    /* Custom Orange Cursor for IDK Space */
+    :root:not([data-apple="true"]):not([data-alien="true"]),
+    :root:not([data-apple="true"]):not([data-alien="true"]) body {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M4 2 L20 8 L13 13 L8 20 Z" fill="%23f97316" stroke="%23000000" stroke-width="1.5" stroke-linejoin="round"/></svg>') 4 2, auto;
+    }
+    :root:not([data-apple="true"]):not([data-alien="true"]) button,
+    :root:not([data-apple="true"]):not([data-alien="true"]) .cell,
+    :root:not([data-apple="true"]):not([data-alien="true"]) a,
+    :root:not([data-apple="true"]):not([data-alien="true"]) .icon-btn,
+    :root:not([data-apple="true"]):not([data-alien="true"]) .btn-toggle {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M4 2 L20 8 L13 13 L8 20 Z" fill="%23f97316" stroke="%23ffffff" stroke-width="1.5" stroke-linejoin="round"/></svg>') 4 2, pointer !important;
+    }
+
+    /* IDK Space Thematic Header Accents */
+    :root:not([data-apple="true"]):not([data-alien="true"]) .icon-btn:hover {
+      color: #f97316 !important;
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3) !important;
+    }
+    :root[data-theme="light"]:not([data-apple="true"]):not([data-alien="true"]) #btn-theme-toggle svg {
+      stroke: #f97316;
+    }
+    :root:not([data-apple="true"]):not([data-alien="true"]) .btn-toggle.active {
+      color: #ea580c;
+    }
+
     /* Design Tokens / Custom CSS Properties */
     :root {
       --transition-speed: 0.3s;
@@ -64,36 +89,36 @@
     }
 
     :root[data-theme="light"] {
-      /* Light: white shades + warm orange/red + light blues */
-      --bg-gradient: radial-gradient(circle at 50% 50%, #fff5f5 0%, #eff6ff 100%);
-      --color-text-main: #0f172a;
-      --color-text-muted: rgba(15, 23, 42, 0.65);
+      /* Premium IDK Space Light: Rich orange gradients and warm glass */
+      --bg-gradient: radial-gradient(circle at top left, #fff7ed 0%, #ffedd5 45%, #fed7aa 100%);
+      --color-text-main: #431407;
+      --color-text-muted: rgba(124, 45, 18, 0.65);
 
-      --glass-bg: rgba(255, 255, 255, 0.62);
-      --glass-bg-hover: rgba(255, 255, 255, 0.88);
-      --glass-border: rgba(2, 6, 23, 0.08);
-      --glass-border-active: rgba(2, 6, 23, 0.16);
-      --glass-shadow: 0 8px 32px 0 rgba(2, 6, 23, 0.10);
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-bg-hover: rgba(255, 255, 255, 0.95);
+      --glass-border: rgba(249, 115, 22, 0.25);
+      --glass-border-active: rgba(249, 115, 22, 0.6);
+      --glass-shadow: 0 12px 36px rgba(249, 115, 22, 0.12);
 
       /* Light surfaces */
-      --surface-soft: rgba(255, 255, 255, 0.65);
-      --surface-board: rgba(14, 165, 233, 0.06);
-      --surface-filled: rgba(14, 165, 233, 0.08);
+      --surface-soft: rgba(255, 255, 255, 0.85);
+      --surface-board: rgba(255, 237, 213, 0.65);
+      --surface-filled: rgba(253, 186, 116, 0.25);
 
-      --overlay-bg: rgba(15, 23, 42, 0.35);
-      --result-card-bg: rgba(255, 255, 255, 0.70);
+      --overlay-bg: rgba(67, 20, 7, 0.35);
+      --result-card-bg: rgba(255, 255, 255, 0.85);
 
       /* X = orange, O = red (matching dark mode) */
-      --accent-x: #f97316;
-      --accent-x-glow: rgba(249, 115, 22, 0.30);
-      --accent-x-bg: rgba(249, 115, 22, 0.10);
+      --accent-x: #ea580c;
+      --accent-x-glow: rgba(234, 88, 12, 0.30);
+      --accent-x-bg: rgba(234, 88, 12, 0.15);
 
       --accent-o: #ef4444;
       --accent-o-glow: rgba(239, 68, 68, 0.30);
       --accent-o-bg: rgba(239, 68, 68, 0.10);
 
-      --accent-blue: #2563eb;
-      --accent-blue-glow: rgba(37, 99, 235, 0.22);
+      --accent-blue: #ea580c;
+      --accent-blue-glow: rgba(234, 88, 12, 0.22);
     }
 
     /* Backward-compatible alias variables used by existing CSS.
