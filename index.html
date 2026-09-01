@@ -34,6 +34,19 @@
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M4 2 L20 8 L13 13 L8 20 Z" fill="%23f97316" stroke="%23ffffff" stroke-width="1.5" stroke-linejoin="round"/></svg>') 4 2, pointer !important;
     }
 
+    /* Custom 3D Geometric Green Cursor for Alienware */
+    :root[data-alien="true"],
+    :root[data-alien="true"] body {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><polygon points="4,2 20,10 12,12" fill="%234ade80"/><polygon points="4,2 12,12 10,20" fill="%2322c55e"/><polygon points="12,12 20,10 18,18" fill="%2316a34a"/><polygon points="12,12 18,18 10,20" fill="%2315803d"/></svg>') 4 2, auto;
+    }
+    :root[data-alien="true"] button,
+    :root[data-alien="true"] .cell,
+    :root[data-alien="true"] a,
+    :root[data-alien="true"] .icon-btn,
+    :root[data-alien="true"] .btn-toggle {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><polygon points="4,2 20,10 12,12" fill="%234ade80"/><polygon points="4,2 12,12 10,20" fill="%2322c55e"/><polygon points="12,12 20,10 18,18" fill="%2316a34a"/><polygon points="12,12 18,18 10,20" fill="%2315803d"/><polygon points="4,2 20,10 18,18 10,20" fill="none" stroke="%23ffffff" stroke-width="1.5"/></svg>') 4 2, pointer !important;
+    }
+
     /* IDK Space Thematic Header Accents */
     :root:not([data-apple="true"]):not([data-alien="true"]) .icon-btn:hover {
       color: #f97316 !important;
@@ -654,6 +667,7 @@
       pointer-events: none;
     }
 
+    #starfield-canvas,
     #constellation-canvas {
       position: absolute;
       top: 0;
@@ -664,6 +678,10 @@
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.8s ease;
+    }
+
+    :root:not([data-apple="true"]):not([data-alien="true"]) #starfield-canvas {
+      opacity: 1;
     }
 
     :root[data-alien="true"] #constellation-canvas {
@@ -1336,6 +1354,8 @@
 
   <!-- Confetti particle element -->
   <canvas id="confetti-canvas"></canvas>
+  <!-- Deep Space Starfield -->
+  <canvas id="starfield-canvas"></canvas>
   <!-- Constellation background element -->
   <canvas id="constellation-canvas"></canvas>
 
@@ -1629,12 +1649,15 @@
         document.documentElement.removeAttribute('data-apple');
         if (btn) btn.classList.remove('active');
         if (typeof Constellation !== 'undefined') Constellation.stop();
+        if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.stop();
 
         if (currentTheme === 'alien') {
           document.documentElement.setAttribute('data-alien', 'true');
           if (typeof Constellation !== 'undefined') Constellation.start();
         } else if (currentTheme === 'apple') {
           document.documentElement.setAttribute('data-apple', 'true');
+        } else if (currentTheme === 'default') {
+          if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.start();
         }
 
         if (btn && currentTheme !== 'default') {
@@ -2042,6 +2065,144 @@
       return { start, stop };
     })();
 
+    /* ---------------------------------------------------- */
+    /* 2.5. STARFIELD WARP (IDK Space Background)           */
+    /* ---------------------------------------------------- */
+    const StarfieldWarp = (() => {
+      let canvas, ctx, animationFrameId;
+      let active = false;
+      const STAR_COUNT = 400;
+      const DEPTH = 1000;
+      const BASE_SPEED = 0.25;
+      let stars = [];
+      const mouse = { x: 0, y: 0, active: false };
+      let w = 0, h = 0;
+
+      function resize() {
+        if (!canvas) return;
+        const dpr = window.devicePixelRatio || 1;
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        initStars();
+      }
+
+      function initStars() {
+        stars = [];
+        for (let i = 0; i < STAR_COUNT; i++) {
+          let z = Math.random() * DEPTH;
+          stars.push({
+            x: (Math.random() - 0.5) * 2000,
+            y: (Math.random() - 0.5) * 2000,
+            z: z,
+            pz: z,
+            isVariant: Math.random() < 0.2
+          });
+        }
+      }
+
+      function onMouseMove(e) {
+        if (!active) return;
+        
+        // Prevent warp speed trigger when hovering over main UI components
+        if (e.target.closest('header, .app-container')) {
+          mouse.active = false;
+          return;
+        }
+
+        mouse.x = (e.clientX / w) - 0.5;
+        mouse.y = (e.clientY / h) - 0.5;
+        mouse.active = true;
+      }
+      function onMouseLeave() {
+        mouse.x = 0; mouse.y = 0; mouse.active = false;
+      }
+
+      function frame() {
+        if (!active) return;
+        
+        // Match theme background logic dynamically based on current color
+        const isLight = document.documentElement.dataset.theme === 'light';
+        ctx.fillStyle = isLight ? 'rgba(255, 247, 237, 0.4)' : 'rgba(5, 5, 16, 0.4)';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w / 2 + mouse.x * w * 0.15;
+        const cy = h / 2 + mouse.y * h * 0.15;
+        const boost = mouse.active ? 1 + (Math.abs(mouse.x) + Math.abs(mouse.y)) * 8 : 1;
+        const spd = BASE_SPEED * boost * 6;
+
+        for (let i = 0; i < stars.length; i++) {
+          let s = stars[i];
+          s.pz = s.z;
+          s.z -= spd;
+
+          if (s.z <= 1) {
+            s.x = (Math.random() - 0.5) * 2000;
+            s.y = (Math.random() - 0.5) * 2000;
+            s.z = DEPTH;
+            s.pz = DEPTH;
+            s.isVariant = Math.random() < 0.2;
+            continue;
+          }
+
+          const k = 128 / s.z;
+          const sx = s.x * k + cx;
+          const sy = s.y * k + cy;
+          if (sx < 0 || sx >= w || sy < 0 || sy >= h) continue;
+
+          const pk = 128 / s.pz;
+          const psx = s.x * pk + cx;
+          const psy = s.y * pk + cy;
+
+          const size = (1 - s.z / DEPTH) * 2.4;
+          const alpha = Math.min(1, (1 - s.z / DEPTH) * 1.4);
+
+          let color = '';
+          if (isLight) {
+            // 80% orange, 20% black
+            color = s.isVariant ? `rgba(15, 23, 42, ${alpha})` : `rgba(234, 88, 12, ${alpha})`;
+          } else {
+            // 80% white, 20% orange
+            color = s.isVariant ? `rgba(249, 115, 22, ${alpha})` : `rgba(255, 255, 255, ${alpha})`;
+          }
+
+          ctx.strokeStyle = color;
+          ctx.lineWidth = size;
+          ctx.beginPath();
+          ctx.moveTo(psx, psy);
+          ctx.lineTo(sx, sy);
+          ctx.stroke();
+        }
+        animationFrameId = requestAnimationFrame(frame);
+      }
+
+      function start() {
+        if (active) return;
+        canvas = document.getElementById('starfield-canvas');
+        if (!canvas) return;
+        ctx = canvas.getContext('2d');
+        active = true;
+        resize();
+        window.addEventListener('resize', resize);
+        document.body.addEventListener('mousemove', onMouseMove);
+        document.body.addEventListener('mouseleave', onMouseLeave);
+        frame();
+      }
+
+      function stop() {
+        active = false;
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        window.removeEventListener('resize', resize);
+        document.body.removeEventListener('mousemove', onMouseMove);
+        document.body.removeEventListener('mouseleave', onMouseLeave);
+        if (ctx && canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      return { start, stop };
+    })();
+
 
 
     /* ---------------------------------------------------- */
@@ -2316,6 +2477,7 @@
     /* 5. DOM CONTROLLER & VIEW INTERFACES                  */
     /* ---------------------------------------------------- */
     document.addEventListener('DOMContentLoaded', () => {
+      if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.start();
       const boardCells = document.querySelectorAll('.cell');
       const scoreBoxX = document.getElementById('score-box-x');
       const scoreBoxO = document.getElementById('score-box-o');
