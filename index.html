@@ -1343,6 +1343,49 @@
         border-radius: 12px;
       }
     }
+
+    /* ---------------------------------------------------- */
+    /* Liquid Glass Cursor (Metallic Theme Only)            */
+    /* ---------------------------------------------------- */
+    :root[data-apple="true"],
+    :root[data-apple="true"] body,
+    :root[data-apple="true"] a,
+    :root[data-apple="true"] button,
+    :root[data-apple="true"] .cell,
+    :root[data-apple="true"] .icon-btn,
+    :root[data-apple="true"] .btn-toggle,
+    :root[data-apple="true"] .score-box {
+      cursor: none !important;
+    }
+    #lgc-container {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .lgc-shadow {
+      position: absolute; left: 0; top: 0; z-index: 10;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(0, 0, 0, 0.45); filter: blur(24px);
+      pointer-events: none; transform: scale(0); will-change: transform;
+    }
+    .lgc-lens {
+      position: absolute; left: 0; top: 0; z-index: 20;
+      width: 160px; height: 160px; overflow: hidden; border-radius: 50%;
+      pointer-events: none; transform: scale(0); will-change: transform;
+    }
+    .lgc-stage {
+      position: absolute; inset: 0; filter: url(#lgc-filter);
+    }
+    .lgc-lens-copy {
+      position: absolute; left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      transform-origin: 0 0; will-change: transform;
+    }
+    .lgc-specular, .lgc-rim { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; }
+    .lgc-specular { background: radial-gradient(ellipse 45% 30% at 32% 24%, rgba(255, 255, 255, 0.35), transparent 70%); }
+    .lgc-rim { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), inset 2px 4px 10px rgba(255, 255, 255, 0.18), inset -3px -5px 14px rgba(0, 0, 0, 0.35); }
   </style>
 </head>
 
@@ -1358,6 +1401,33 @@
   <canvas id="starfield-canvas"></canvas>
   <!-- Constellation background element -->
   <canvas id="constellation-canvas"></canvas>
+
+  <!-- Liquid Glass Cursor for Metallic Theme -->
+  <svg class="lgc-defs" aria-hidden="true" style="position: absolute; width: 0; height: 0; pointer-events:none;">
+    <defs>
+      <filter id="lgc-filter" x="0" y="0" width="160" height="160" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <feImage id="lgc-map" x="0" y="0" width="160" height="160" result="map" />
+        <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cr" />
+        <feDisplacementMap in="cr" in2="map" scale="112" xChannelSelector="R" yChannelSelector="G" result="dr" />
+        <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cg" />
+        <feDisplacementMap in="cg" in2="map" scale="70" xChannelSelector="R" yChannelSelector="G" result="dg" />
+        <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="cb" />
+        <feDisplacementMap in="cb" in2="map" scale="28" xChannelSelector="R" yChannelSelector="G" result="db" />
+        <feComposite in="dr" in2="dg" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="drg" />
+        <feComposite in="drg" in2="db" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+      </filter>
+    </defs>
+  </svg>
+  <div id="lgc-container" style="display: none;">
+    <div class="lgc-shadow" aria-hidden="true"></div>
+    <div class="lgc-lens" aria-hidden="true">
+      <div class="lgc-stage">
+        <div class="lgc-lens-copy" id="lgc-copy-container"></div>
+      </div>
+      <div class="lgc-specular"></div>
+      <div class="lgc-rim"></div>
+    </div>
+  </div>
 
   <!-- Top Premium Header Panel -->
   <header class="top-premium-panel">
@@ -1650,12 +1720,14 @@
         if (btn) btn.classList.remove('active');
         if (typeof Constellation !== 'undefined') Constellation.stop();
         if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.stop();
+        if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.stop();
 
         if (currentTheme === 'alien') {
           document.documentElement.setAttribute('data-alien', 'true');
           if (typeof Constellation !== 'undefined') Constellation.start();
         } else if (currentTheme === 'apple') {
           document.documentElement.setAttribute('data-apple', 'true');
+          if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.start();
         } else if (currentTheme === 'default') {
           if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.start();
         }
@@ -2204,6 +2276,128 @@
     })();
 
 
+
+    /* ---------------------------------------------------- */
+    /* 2.7. LIQUID GLASS CURSOR (METALLIC)                  */
+    /* ---------------------------------------------------- */
+    const LiquidGlassCursor = (() => {
+      let active = false;
+      let container, lens, shadow, copy, mapImage;
+      let animationFrameId = null;
+      let observer = null;
+      
+      const size = 160;
+      const magnification = 1.2;
+      let targetX = -1000, targetY = -1000, targetScale = 0;
+      let x = -1000, y = -1000, scale = 0;
+
+      function init() {
+        container = document.getElementById("lgc-container");
+        lens = container.querySelector(".lgc-lens");
+        shadow = container.querySelector(".lgc-shadow");
+        copy = document.getElementById("lgc-copy-container");
+        mapImage = document.getElementById("lgc-map");
+
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = size;
+        const ctx = canvas.getContext("2d");
+        const img = ctx.createImageData(size, size);
+        const c = size / 2;
+        for (let py = 0; py < size; py++) {
+          for (let px = 0; px < size; px++) {
+            const dx = px - c;
+            const dy = py - c;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const nd = Math.min(dist / c, 1);
+            const strength = nd * nd * nd;
+            const ux = dist > 0 ? dx / dist : 0;
+            const uy = dist > 0 ? dy / dist : 0;
+            const i = (py * size + px) * 4;
+            img.data[i] = Math.round(255 * (0.5 - 0.5 * ux * strength));
+            img.data[i + 1] = Math.round(255 * (0.5 - 0.5 * uy * strength));
+            img.data[i + 2] = 128;
+            img.data[i + 3] = 255;
+          }
+        }
+        ctx.putImageData(img, 0, 0);
+        mapImage.setAttribute("href", canvas.toDataURL());
+      }
+
+      function syncCopy() {
+        if (!active) return;
+        const appContainer = document.querySelector('.app-container');
+        const header = document.querySelector('.top-premium-panel');
+        if (appContainer && header) {
+          copy.innerHTML = header.outerHTML + appContainer.outerHTML;
+          copy.style.display = 'flex';
+          copy.style.flexDirection = 'column';
+          copy.style.alignItems = 'center';
+          copy.style.justifyContent = 'center';
+          copy.style.minHeight = '100vh';
+          copy.style.margin = '0';
+          copy.style.padding = '0';
+          copy.style.boxSizing = 'border-box';
+          
+          const isLight = document.documentElement.dataset.theme === 'light';
+          copy.style.background = isLight ? '#f9fafb' : 'radial-gradient(circle at 50% 50%, #1e1e24 0%, #0a0a0c 100%)';
+        }
+      }
+
+      function onMouseMove(e) {
+        if (!active) return;
+        targetX = e.clientX;
+        targetY = e.clientY;
+        targetScale = 1;
+      }
+
+      function onMouseLeave() {
+        targetScale = 0;
+      }
+
+      function frame() {
+        if (!active) return;
+        const ease = 0.16;
+        x += (targetX - x) * ease;
+        y += (targetY - y) * ease;
+        scale += (targetScale - scale) * 0.14;
+
+        const lx = x - size / 2;
+        const ly = y - size / 2;
+        lens.style.transform = `translate(${lx}px, ${ly}px) scale(${scale})`;
+        shadow.style.transform = `translate(${lx + 8}px, ${ly + 12}px) scale(${scale})`;
+        
+        copy.style.transform = `translate(${size / 2 - magnification * x}px, ${size / 2 - magnification * y}px) scale(${magnification})`;
+
+        animationFrameId = requestAnimationFrame(frame);
+      }
+
+      function start() {
+        if (active) return;
+        if (!container) init();
+        active = true;
+        container.style.display = 'block';
+        document.body.addEventListener("mousemove", onMouseMove);
+        document.body.addEventListener("mouseleave", onMouseLeave);
+        
+        syncCopy();
+        // Sync whenever theme changes too
+        observer = new MutationObserver(syncCopy);
+        observer.observe(document.querySelector('.app-container'), { subtree: true, childList: true, characterData: true, attributes: true });
+        
+        frame();
+      }
+
+      function stop() {
+        active = false;
+        if (container) container.style.display = 'none';
+        document.body.removeEventListener("mousemove", onMouseMove);
+        document.body.removeEventListener("mouseleave", onMouseLeave);
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        if (observer) observer.disconnect();
+      }
+
+      return { start, stop, syncCopy };
+    })();
 
     /* ---------------------------------------------------- */
     /* 3. GAME STATE & LOGIC ENGINE                         */
