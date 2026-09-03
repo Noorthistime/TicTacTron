@@ -1348,13 +1348,7 @@
     /* Liquid Glass Cursor (Metallic Theme Only)            */
     /* ---------------------------------------------------- */
     :root[data-apple="true"],
-    :root[data-apple="true"] body,
-    :root[data-apple="true"] a,
-    :root[data-apple="true"] button,
-    :root[data-apple="true"] .cell,
-    :root[data-apple="true"] .icon-btn,
-    :root[data-apple="true"] .btn-toggle,
-    :root[data-apple="true"] .score-box {
+    :root[data-apple="true"] body {
       cursor: none !important;
     }
     #lgc-container {
@@ -2347,7 +2341,18 @@
         if (!active) return;
         targetX = e.clientX;
         targetY = e.clientY;
-        targetScale = 1;
+        
+        // Hide lens and restore native cursor when hovering over excluded UI elements
+        if (e.target.closest('.top-premium-panel') || 
+            e.target.closest('.score-container') || 
+            e.target.closest('.game-board') || 
+            e.target.closest('.bottom-controls')) {
+          targetScale = 0;
+          document.body.style.cursor = 'auto';
+        } else {
+          targetScale = 1;
+          document.body.style.cursor = 'none';
+        }
       }
 
       function onMouseLeave() {
@@ -2390,6 +2395,7 @@
       function stop() {
         active = false;
         if (container) container.style.display = 'none';
+        document.body.style.cursor = ''; // Reset body cursor style
         document.body.removeEventListener("mousemove", onMouseMove);
         document.body.removeEventListener("mouseleave", onMouseLeave);
         if (animationFrameId) cancelAnimationFrame(animationFrameId);
