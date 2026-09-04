@@ -1351,6 +1351,23 @@
     :root[data-apple="true"] body {
       cursor: none !important;
     }
+
+    /* Show custom pointer over interactive elements while lens is hidden */
+    :root[data-apple="true"] .top-premium-panel,
+    :root[data-apple="true"] .score-container,
+    :root[data-apple="true"] .game-board,
+    :root[data-apple="true"] .bottom-controls {
+      cursor: url('metallic_cursor_small.png'), auto !important;
+    }
+    
+    :root[data-apple="true"] a,
+    :root[data-apple="true"] button,
+    :root[data-apple="true"] .cell,
+    :root[data-apple="true"] .icon-btn,
+    :root[data-apple="true"] .btn-toggle,
+    :root[data-apple="true"] .score-box {
+      cursor: url('metallic_cursor_small.png'), pointer !important;
+    }
     #lgc-container {
       position: fixed;
       inset: 0;
