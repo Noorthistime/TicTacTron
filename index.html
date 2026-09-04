@@ -1356,7 +1356,7 @@
     :root[data-apple="true"] .top-premium-panel,
     :root[data-apple="true"] .scoreboard,
     :root[data-apple="true"] .game-board,
-    :root[data-apple="true"] .bottom-controls {
+    :root[data-apple="true"] .btn-action-container {
       cursor: url('metallic_cursor_small.png'), auto !important;
     }
     
@@ -2363,7 +2363,7 @@
         if (e.target.closest('.top-premium-panel') || 
             e.target.closest('.scoreboard') || 
             e.target.closest('.game-board') || 
-            e.target.closest('.bottom-controls')) {
+            e.target.closest('.btn-action-container')) {
           targetScale = 0;
           document.body.style.cursor = 'auto';
         } else {
