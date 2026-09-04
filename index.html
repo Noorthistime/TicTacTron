@@ -1354,7 +1354,7 @@
 
     /* Show custom pointer over interactive elements while lens is hidden */
     :root[data-apple="true"] .top-premium-panel,
-    :root[data-apple="true"] .score-container,
+    :root[data-apple="true"] .scoreboard,
     :root[data-apple="true"] .game-board,
     :root[data-apple="true"] .bottom-controls {
       cursor: url('metallic_cursor_small.png'), auto !important;
@@ -2361,7 +2361,7 @@
         
         // Hide lens and restore native cursor when hovering over excluded UI elements
         if (e.target.closest('.top-premium-panel') || 
-            e.target.closest('.score-container') || 
+            e.target.closest('.scoreboard') || 
             e.target.closest('.game-board') || 
             e.target.closest('.bottom-controls')) {
           targetScale = 0;
