@@ -2378,10 +2378,10 @@
 
       function frame() {
         if (!active) return;
-        const ease = 0.16;
+        const ease = 0.08;
         x += (targetX - x) * ease;
         y += (targetY - y) * ease;
-        scale += (targetScale - scale) * 0.14;
+        scale += (targetScale - scale) * 0.08;
 
         const lx = x - size / 2;
         const ly = y - size / 2;
