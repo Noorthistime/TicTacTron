@@ -848,6 +848,19 @@
       background: var(--glass-border-active);
     }
 
+    /* CSS driven Theme Cycle Icons to strictly follow HTML attribute state */
+    :root:not([data-apple="true"]):not([data-alien="true"]) #svg-cycle-default { display: block !important; }
+    :root:not([data-apple="true"]):not([data-alien="true"]) #svg-cycle-alien { display: none !important; }
+    :root:not([data-apple="true"]):not([data-alien="true"]) #svg-cycle-apple { display: none !important; }
+
+    :root[data-alien="true"] #svg-cycle-default { display: none !important; }
+    :root[data-alien="true"] #svg-cycle-alien { display: block !important; }
+    :root[data-alien="true"] #svg-cycle-apple { display: none !important; }
+
+    :root[data-apple="true"] #svg-cycle-default { display: none !important; }
+    :root[data-apple="true"] #svg-cycle-alien { display: none !important; }
+    :root[data-apple="true"] #svg-cycle-apple { display: block !important; }
+
     /* Scoreboard Dashboard */
     .scoreboard {
       display: grid;
@@ -1740,18 +1753,15 @@
         }
 
         // 1. UPDATE ICONS AND UI TITLES IMMEDIATELY
-        if (svgDefault) { svgDefault.style.display = 'none'; svgDefault.classList.remove('animate-cycle-svg'); }
-        if (svgAlien) { svgAlien.style.display = 'none'; svgAlien.classList.remove('animate-cycle-svg'); }
-        if (svgApple) { svgApple.style.display = 'none'; svgApple.classList.remove('animate-cycle-svg'); }
+        if (svgDefault) { svgDefault.classList.remove('animate-cycle-svg'); }
+        if (svgAlien) { svgAlien.classList.remove('animate-cycle-svg'); }
+        if (svgApple) { svgApple.classList.remove('animate-cycle-svg'); }
 
         if (currentTheme === 'default') {
-          if (svgDefault) svgDefault.style.display = 'block';
           if (btn) { btn.title = 'Theme: IDK Space'; btn.setAttribute('aria-label', 'Theme: IDK Space'); }
         } else if (currentTheme === 'alien') {
-          if (svgAlien) svgAlien.style.display = 'block';
           if (btn) { btn.title = 'Theme: Alienware'; btn.setAttribute('aria-label', 'Theme: Alienware'); }
         } else if (currentTheme === 'apple') {
-          if (svgApple) svgApple.style.display = 'block';
           if (btn) { btn.title = 'Theme: Metallic'; btn.setAttribute('aria-label', 'Theme: Metallic'); }
         }
 
