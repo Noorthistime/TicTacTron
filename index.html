@@ -21,17 +21,34 @@
 
   <!-- CSS Styles -->
   <style>
-    /* Custom Red Cursor for IDK Space */
+    /* Custom Animated Red Cursor for IDK Space */
     :root:not([data-apple="true"]):not([data-alien="true"]),
-    :root:not([data-apple="true"]):not([data-alien="true"]) body {
-      cursor: url('idk_space_cursor_small.png'), auto;
-    }
+    :root:not([data-apple="true"]):not([data-alien="true"]) body,
     :root:not([data-apple="true"]):not([data-alien="true"]) button,
     :root:not([data-apple="true"]):not([data-alien="true"]) .cell,
-    :root:not([data-apple="true"]):not([data-alien="true"]) a,
     :root:not([data-apple="true"]):not([data-alien="true"]) .icon-btn,
+    :root:not([data-apple="true"]):not([data-alien="true"]) a,
+    :root:not([data-apple="true"]):not([data-alien="true"]) .score-box,
     :root:not([data-apple="true"]):not([data-alien="true"]) .btn-toggle {
-      cursor: url('idk_space_cursor_small.png'), pointer !important;
+      cursor: none !important;
+    }
+
+    #idk-animated-cursor {
+      position: fixed;
+      width: 32px;
+      height: 32px;
+      background-image: url('idk_cursor_sprite.png');
+      background-size: 448px 32px;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      display: none;
+      animation: idkCursorAnim 0.7s steps(14) infinite;
+    }
+    
+    @keyframes idkCursorAnim {
+      from { background-position: 0 0; }
+      to { background-position: -448px 0; }
     }
 
     /* Custom 3D Geometric Green Cursor for Alienware */
@@ -1411,8 +1428,8 @@
   <!-- Deep Space Starfield -->
   <canvas id="starfield-canvas"></canvas>
   <!-- Constellation background element -->
-  <canvas id="constellation-canvas"></canvas>
-
+  <canvas id="constellation-canvas"></canvas>  
+  
   <!-- Liquid Glass Cursor for Metallic Theme -->
   <svg class="lgc-defs" aria-hidden="true" style="position: absolute; width: 0; height: 0; pointer-events:none;">
     <defs>
@@ -1439,6 +1456,9 @@
       <div class="lgc-rim"></div>
     </div>
   </div>
+
+  <!-- IDK Space Animated DOM Cursor -->
+  <div id="idk-animated-cursor"></div>
 
   <!-- Top Premium Header Panel -->
   <header class="top-premium-panel">
@@ -1732,6 +1752,7 @@
         if (typeof Constellation !== 'undefined') Constellation.stop();
         if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.stop();
         if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.stop();
+        if (typeof IdkSpaceCursor !== 'undefined') IdkSpaceCursor.stop();
 
         if (currentTheme === 'alien') {
           document.documentElement.setAttribute('data-alien', 'true');
@@ -1741,6 +1762,7 @@
           if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.start();
         } else if (currentTheme === 'default') {
           if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.start();
+          if (typeof IdkSpaceCursor !== 'undefined') IdkSpaceCursor.start();
         }
 
         if (btn && currentTheme !== 'default') {
@@ -2423,6 +2445,36 @@
     })();
 
     /* ---------------------------------------------------- */
+    /* 2.9. IDK SPACE ANIMATED CURSOR                       */
+    /* ---------------------------------------------------- */
+    const IdkSpaceCursor = (() => {
+      let active = false;
+      let cursorEl;
+
+      function onMouseMove(e) {
+        if (!active || !cursorEl) return;
+        cursorEl.style.left = e.clientX + 'px';
+        cursorEl.style.top = e.clientY + 'px';
+      }
+
+      function start() {
+        if (active) return;
+        active = true;
+        cursorEl = document.getElementById('idk-animated-cursor');
+        if (cursorEl) cursorEl.style.display = 'block';
+        document.body.addEventListener("mousemove", onMouseMove);
+      }
+
+      function stop() {
+        active = false;
+        if (cursorEl) cursorEl.style.display = 'none';
+        document.body.removeEventListener("mousemove", onMouseMove);
+      }
+      
+      return { start, stop };
+    })();
+
+    /* ---------------------------------------------------- */
     /* 3. GAME STATE & LOGIC ENGINE                         */
     /* ---------------------------------------------------- */
     const GameState = (() => {
@@ -2695,6 +2747,7 @@
     /* ---------------------------------------------------- */
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.start();
+      if (typeof IdkSpaceCursor !== 'undefined') IdkSpaceCursor.start();
       const boardCells = document.querySelectorAll('.cell');
       const scoreBoxX = document.getElementById('score-box-x');
       const scoreBoxO = document.getElementById('score-box-o');
