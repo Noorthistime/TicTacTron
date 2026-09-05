@@ -1552,15 +1552,15 @@
         <!-- Cyclic Theme Toggle -->
         <button id="btn-theme-cycle" class="icon-btn" aria-label="Theme: IDK Space" title="Theme: IDK Space" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 12px; margin-left: 8px;">
           <!-- IDK Space SVG (Triangle) -->
-          <svg id="svg-cycle-default" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <svg id="svg-cycle-default" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" style="fill: none !important;" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2l10 18H2z"></path>
           </svg>
           <!-- Alienware SVG (Pentagon) -->
-          <svg id="svg-cycle-alien" style="display: none;" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <svg id="svg-cycle-alien" style="display: none; fill: none !important;" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2l9.5 6.9-3.6 11.1H6.1L2.5 8.9z"></path>
           </svg>
           <!-- Metallic SVG (Crystal/Hexagon) -->
-          <svg id="svg-cycle-apple" style="display: none;" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <svg id="svg-cycle-apple" style="display: none; fill: none !important;" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2l7 5v10l-7 5-7-5V7z"></path>
             <path d="M12 2v20"></path>
             <path d="M5 7l14 10"></path>
@@ -1746,6 +1746,7 @@
         if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.stop();
         if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.stop();
         if (typeof IdkSpaceCursor !== 'undefined') IdkSpaceCursor.stop();
+        if (typeof MetallicCursorTrail !== 'undefined') MetallicCursorTrail.stop();
 
         if (currentTheme === 'alien') {
           document.documentElement.setAttribute('data-alien', 'true');
@@ -1753,6 +1754,7 @@
         } else if (currentTheme === 'apple') {
           document.documentElement.setAttribute('data-apple', 'true');
           if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.start();
+          if (typeof MetallicCursorTrail !== 'undefined') MetallicCursorTrail.start();
         } else if (currentTheme === 'default') {
           if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.start();
           if (typeof IdkSpaceCursor !== 'undefined') IdkSpaceCursor.start();
@@ -1763,9 +1765,9 @@
         }
 
         // Update Icons & Titles
-        if (svgDefault) svgDefault.style.display = 'none';
-        if (svgAlien) svgAlien.style.display = 'none';
-        if (svgApple) svgApple.style.display = 'none';
+        if (svgDefault) { svgDefault.style.display = 'none'; svgDefault.classList.remove('animate-cycle-svg'); }
+        if (svgAlien) { svgAlien.style.display = 'none'; svgAlien.classList.remove('animate-cycle-svg'); }
+        if (svgApple) { svgApple.style.display = 'none'; svgApple.classList.remove('animate-cycle-svg'); }
 
         if (currentTheme === 'default') {
           if (svgDefault) svgDefault.style.display = 'block';
