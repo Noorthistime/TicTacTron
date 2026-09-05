@@ -1724,10 +1724,11 @@
       let currentTheme = 'default';
 
       function cycleTheme() {
-        const btn = document.getElementById('btn-theme-cycle');
-        const svgDefault = document.getElementById('svg-cycle-default');
-        const svgAlien = document.getElementById('svg-cycle-alien');
-        const svgApple = document.getElementById('svg-cycle-apple');
+        const parent = document.querySelector('header.top-premium-panel') || document;
+        const btn = parent.querySelector('#btn-theme-cycle');
+        const svgDefault = parent.querySelector('#svg-cycle-default');
+        const svgAlien = parent.querySelector('#svg-cycle-alien');
+        const svgApple = parent.querySelector('#svg-cycle-apple');
 
         // Cycle logic
         if (currentTheme === 'default') {
@@ -1738,55 +1739,20 @@
           currentTheme = 'default';
         }
 
-        // Apply attributes and animations
-        document.documentElement.removeAttribute('data-alien');
-        document.documentElement.removeAttribute('data-apple');
-        if (btn) btn.classList.remove('active');
-        if (typeof Constellation !== 'undefined') Constellation.stop();
-        if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.stop();
-        if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.stop();
-        if (typeof IdkSpaceCursor !== 'undefined') IdkSpaceCursor.stop();
-        if (typeof MetallicCursorTrail !== 'undefined') MetallicCursorTrail.stop();
-
-        if (currentTheme === 'alien') {
-          document.documentElement.setAttribute('data-alien', 'true');
-          if (typeof Constellation !== 'undefined') Constellation.start();
-        } else if (currentTheme === 'apple') {
-          document.documentElement.setAttribute('data-apple', 'true');
-          if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.start();
-          if (typeof MetallicCursorTrail !== 'undefined') MetallicCursorTrail.start();
-        } else if (currentTheme === 'default') {
-          if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.start();
-          if (typeof IdkSpaceCursor !== 'undefined') IdkSpaceCursor.start();
-        }
-
-        if (btn && currentTheme !== 'default') {
-          btn.classList.add('active');
-        }
-
-        // Update Icons & Titles
+        // 1. UPDATE ICONS AND UI TITLES IMMEDIATELY
         if (svgDefault) { svgDefault.style.display = 'none'; svgDefault.classList.remove('animate-cycle-svg'); }
         if (svgAlien) { svgAlien.style.display = 'none'; svgAlien.classList.remove('animate-cycle-svg'); }
         if (svgApple) { svgApple.style.display = 'none'; svgApple.classList.remove('animate-cycle-svg'); }
 
         if (currentTheme === 'default') {
           if (svgDefault) svgDefault.style.display = 'block';
-          if (btn) {
-            btn.title = 'Theme: IDK Space';
-            btn.setAttribute('aria-label', 'Theme: IDK Space');
-          }
+          if (btn) { btn.title = 'Theme: IDK Space'; btn.setAttribute('aria-label', 'Theme: IDK Space'); }
         } else if (currentTheme === 'alien') {
           if (svgAlien) svgAlien.style.display = 'block';
-          if (btn) {
-            btn.title = 'Theme: Alienware';
-            btn.setAttribute('aria-label', 'Theme: Alienware');
-          }
+          if (btn) { btn.title = 'Theme: Alienware'; btn.setAttribute('aria-label', 'Theme: Alienware'); }
         } else if (currentTheme === 'apple') {
           if (svgApple) svgApple.style.display = 'block';
-          if (btn) {
-            btn.title = 'Theme: Metallic';
-            btn.setAttribute('aria-label', 'Theme: Metallic');
-          }
+          if (btn) { btn.title = 'Theme: Metallic'; btn.setAttribute('aria-label', 'Theme: Metallic'); }
         }
 
         // Trigger animation
@@ -1795,6 +1761,37 @@
           activeSvg.classList.remove('animate-cycle-svg');
           void activeSvg.offsetWidth; // Force DOM reflow to restart animation
           activeSvg.classList.add('animate-cycle-svg');
+        }
+
+        if (btn) {
+          if (currentTheme !== 'default') btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+
+        // 2. SAFELY APPLY ATTRIBUTES AND ANIMATIONS
+        document.documentElement.removeAttribute('data-alien');
+        document.documentElement.removeAttribute('data-apple');
+        
+        try {
+          if (typeof Constellation !== 'undefined') Constellation.stop();
+          if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.stop();
+          if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.stop();
+          if (typeof IdkSpaceCursor !== 'undefined') IdkSpaceCursor.stop();
+          if (typeof MetallicCursorTrail !== 'undefined') MetallicCursorTrail.stop();
+
+          if (currentTheme === 'alien') {
+            document.documentElement.setAttribute('data-alien', 'true');
+            if (typeof Constellation !== 'undefined') Constellation.start();
+          } else if (currentTheme === 'apple') {
+            document.documentElement.setAttribute('data-apple', 'true');
+            if (typeof LiquidGlassCursor !== 'undefined') LiquidGlassCursor.start();
+            if (typeof MetallicCursorTrail !== 'undefined') MetallicCursorTrail.start();
+          } else if (currentTheme === 'default') {
+            if (typeof StarfieldWarp !== 'undefined') StarfieldWarp.start();
+            if (typeof IdkSpaceCursor !== 'undefined') IdkSpaceCursor.start();
+          }
+        } catch (e) {
+          console.error("Safely caught theme animation error:", e);
         }
       }
 
