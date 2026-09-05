@@ -39,17 +39,14 @@
       height: 32px;
       background-image: url('idk_cursor_sprite.png');
       background-size: 448px 32px;
+      background-position: 0 0; /* Static first frame */
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%, -50%);
       display: none;
-      animation: idkCursorAnim 0.7s steps(14) infinite;
     }
     
-    @keyframes idkCursorAnim {
-      from { background-position: 0 0; }
-      to { background-position: -448px 0; }
-    }
+
 
     /* Custom 3D Geometric Green Cursor for Alienware */
     :root[data-alien="true"],
