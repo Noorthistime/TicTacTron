@@ -1461,29 +1461,39 @@
         justify-content: center;
       }
       .header-options {
-        flex-direction: column; 
+        flex-direction: row; /* Switch to row */
+        flex-wrap: wrap;     /* Allow wrapping */
         align-items: center;
-        gap: 1.5vh;
+        justify-content: center;
+        gap: 1.5vh 1vw;      /* row gap, col gap */
         width: 100%;
       }
       .option-item {
         margin: 0;
-        width: 100%;
+        width: 100%; /* Force opponent and AI rows to take full width */
         justify-content: center;
+        flex-direction: row;
+        flex-wrap: nowrap; 
       }
-      /* Ensure Icons are side-by-side in a row */
-      .header-options .icon-btn {
+      /* Magic trick: Allow the 3rd row (Theme icons) to shrink so the Sound icon sits perfectly next to it */
+      .header-options > .option-item:last-of-type {
+        width: auto;
+      }
+      /* Ensure ALL Icons are sized identically and sit side-by-side */
+      .header-options .icon-btn, .header-options > #btn-sound {
         width: clamp(32px, 8vw, 40px) !important;
         height: clamp(32px, 8vw, 40px) !important;
         margin: 0 1vw !important;
+        flex-shrink: 0; 
       }
-      .header-options .icon-btn svg {
+      .header-options .icon-btn svg, .header-options > #btn-sound svg {
         width: 50% !important;
         height: 50% !important;
       }
       .btn-toggle {
-        padding: 1vh 3vw;
-        font-size: clamp(10px, 3vw, 13px);
+        padding: 1vh 1.5vw;
+        font-size: clamp(8px, 2.5vw, 11px); /* Aggressive shrink for Grandmaster */
+        white-space: nowrap; 
       }
 
       /* 3. Scoreboard */
