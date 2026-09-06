@@ -1470,14 +1470,15 @@
       }
       .option-item {
         margin: 0;
-        width: 100%; /* Force opponent and AI rows to take full width */
+        width: auto; /* Allow them to sit side-by-side */
+        flex: 1;     /* Share available space evenly */
         justify-content: center;
         flex-direction: row;
         flex-wrap: nowrap; 
       }
-      /* Magic trick: Allow the 3rd row (Theme icons) to shrink so the Sound icon sits perfectly next to it */
+      /* Ensure the theme icons container doesn't stretch huge */
       .header-options > .option-item:last-of-type {
-        width: auto;
+        flex: 0 1 auto;
       }
       /* Ensure ALL Icons are sized identically and sit side-by-side */
       .header-options .icon-btn, .header-options > #btn-sound {
@@ -1490,9 +1491,13 @@
         width: 50% !important;
         height: 50% !important;
       }
+      .option-label {
+        font-size: clamp(8px, 2.2vw, 10px); /* Aggressive shrink for text */
+        margin-right: 4px;
+      }
       .btn-toggle {
-        padding: 1vh 1.5vw;
-        font-size: clamp(8px, 2.5vw, 11px); /* Aggressive shrink for Grandmaster */
+        padding: 4px 6px; /* Super tight padding */
+        font-size: clamp(8px, 2.2vw, 11px); /* Aggressive shrink for buttons */
         white-space: nowrap; 
       }
 
