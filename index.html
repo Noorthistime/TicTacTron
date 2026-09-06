@@ -1429,32 +1429,41 @@
     /* Desktop layout is strictly untouched outside this block   */
     /* ========================================================= */
     @media (max-width: 768px) {
-      /* 1. Body Padding Adjustment to clear stacked header */
+      /* 1. Body & Container Flow */
       body {
-        padding: 200px 10px 10px 10px; 
+        padding: 2vh 4vw; /* Minimal edge padding */
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
       }
       .app-container {
-        padding: 0; 
+        padding: 0;
+        margin: auto 0;
+        gap: 2vh;
       }
       
-      /* 2. Header Resizing & Wrapping */
+      /* 2. Header Resizing & Stacking */
       .top-premium-panel {
-        flex-direction: column; /* Stack logo and options on mobile */
-        height: auto;
-        padding: 12px;
-        gap: 12px;
-        left: 10px;
-        right: 10px;
-        top: 10px;
+        position: relative; /* Removes from fixed position to flow naturally above content */
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1vh;
+        padding: 2vh 3vw;
+        border-radius: 16px;
+        flex-direction: column;
+        gap: 1.5vh;
+        animation: none; /* Disable glow animation for battery/space */
       }
       .logo-container {
         width: 100%;
         justify-content: center;
       }
       .header-options {
-        flex-direction: column; /* Force all option groups to stack vertically */
+        flex-direction: column; 
         align-items: center;
-        gap: 12px;
+        gap: 1.5vh;
         width: 100%;
       }
       .option-item {
@@ -1462,62 +1471,69 @@
         width: 100%;
         justify-content: center;
       }
+      /* Ensure Icons are side-by-side in a row */
       .header-options .icon-btn {
-        width: 36px !important;
-        height: 36px !important;
-        margin-left: 0 !important;
-        margin: 0 4px !important; /* Space between the 3 icons */
+        width: clamp(32px, 8vw, 40px) !important;
+        height: clamp(32px, 8vw, 40px) !important;
+        margin: 0 1vw !important;
       }
       .header-options .icon-btn svg {
-        width: 18px !important;
-        height: 18px !important;
+        width: 50% !important;
+        height: 50% !important;
       }
       .btn-toggle {
-        padding: 6px 14px;
-        font-size: 13px;
+        padding: 1vh 3vw;
+        font-size: clamp(10px, 3vw, 13px);
       }
 
-      /* 3. Scoreboard Resizing */
+      /* 3. Scoreboard */
       .scoreboard {
-        gap: 6px;
+        gap: 2vw;
       }
       .score-box {
-        padding: 8px 4px;
-        font-size: 13px;
-        min-height: 60px; /* Reduced from 70px to save vertical space */
+        padding: 1.5vh 1vw;
+        font-size: clamp(11px, 3.5vw, 14px);
+        min-height: 0;
         border-radius: 12px;
       }
       .score-box .indicator-dot {
         width: 6px;
         height: 6px;
-        bottom: 6px;
+        bottom: 4px;
       }
       .score-box .player-name {
-        font-size: 10px;
-        margin-bottom: 2px;
+        font-size: clamp(9px, 2.5vw, 11px);
+        margin-bottom: 0.5vh;
       }
 
-      /* 4. Game Board Compression */
+      /* 4. Game Board Centered & Dynamic */
       .game-board {
         width: 100%;
-        max-width: 280px; /* Reduced to fit short screens */
-        height: 280px;    /* Reduced to fit short screens */
-        gap: 6px;
-        margin-top: 10px;
+        max-width: 90vw;
+        aspect-ratio: 1 / 1;
+        /* Mathematically forces board to shrink if the phone is short */
+        max-height: calc(100vh - 380px); 
+        height: auto;
+        gap: 1.5vw;
+        margin: 0 auto;
       }
       .cell {
-        font-size: 2rem;
+        font-size: clamp(1.2rem, 8vw, 2.2rem);
         border-radius: 12px;
       }
 
-      /* 5. Bottom Buttons (Prevent vertical overflow) */
+      /* 5. Bottom Buttons */
       .btn-action-container {
-        margin-top: 10px;
-        gap: 8px;
+        margin-top: 1vh;
+        gap: 1.5vh;
+        flex-direction: column;
+        width: 100%;
       }
       .btn-action {
-        padding: 10px;
-        font-size: 13px;
+        width: 100%;
+        padding: 1.5vh;
+        font-size: clamp(12px, 4vw, 15px);
+        border-radius: 12px;
       }
     }
   </style>
