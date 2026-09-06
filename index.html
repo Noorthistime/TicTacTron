@@ -1527,6 +1527,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        overflow: visible !important;
       }
 
       /* Transform the original btn-group into a floating dropdown */
@@ -2693,6 +2694,7 @@
       ];
 
       function toggleMode(toAI) {
+        if (isAIMode === toAI) return;
         isAIMode = toAI;
         resetBoard();
       }
