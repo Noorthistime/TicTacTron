@@ -1472,24 +1472,42 @@
         justify-content: center;
       }
       .header-options {
-        flex-direction: row; /* Switch to row */
-        flex-wrap: wrap;     /* Allow wrapping */
+        flex-direction: row; 
+        flex-wrap: nowrap; /* Never wrap */
         align-items: center;
-        justify-content: center;
-        gap: 1.5vh 1vw;      /* row gap, col gap */
+        justify-content: space-between;
         width: 100%;
+        gap: 0; 
       }
       .option-item {
-        margin: 0;
-        width: auto; /* Allow them to sit side-by-side */
-        flex: 1;     /* Share available space evenly */
-        justify-content: center;
         flex-direction: row;
         flex-wrap: nowrap; 
       }
-      /* Ensure the theme icons container doesn't stretch huge */
+      
+      /* Opponent Group (Left 50% or 70%) */
+      .header-options > .option-item:first-of-type {
+        flex: 1;
+        justify-content: flex-start;
+        margin: 0;
+      }
+      
+      /* Difficulty Group (Middle) */
+      #difficulty-container {
+        flex: 0 0 auto;
+        margin: 0;
+      }
+
+      /* Icons Group (Right 50%) */
       .header-options > .option-item:last-of-type {
-        flex: 0 1 auto;
+        flex: 0 0 50%;
+        justify-content: flex-end;
+        transition: flex 0.3s ease;
+        margin: 0;
+      }
+
+      /* When Smart AI Difficulty appears, morph Icons to 30% ratio! */
+      #difficulty-container.visible ~ .option-item:last-of-type {
+        flex: 0 0 30%;
       }
       /* Ensure ALL Icons are sized identically and sit side-by-side */
       .header-options .icon-btn, .header-options > #btn-sound {
