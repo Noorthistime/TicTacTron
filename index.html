@@ -1493,9 +1493,9 @@
       }
       /* Ensure ALL Icons are sized identically and sit side-by-side */
       .header-options .icon-btn, .header-options > #btn-sound {
-        width: clamp(24px, 6vw, 28px) !important;
-        height: clamp(24px, 6vw, 28px) !important;
-        margin: 0 0.5vw !important;
+        width: clamp(22px, 5.5vw, 26px) !important;
+        height: clamp(22px, 5.5vw, 26px) !important;
+        margin: 0 0.25vw !important;
         flex-shrink: 0; 
       }
       .header-options .icon-btn svg, .header-options > #btn-sound svg {
@@ -1512,10 +1512,10 @@
         display: block !important;
         background: var(--bg-tertiary);
         border-radius: 8px; /* Tighter look */
-        padding: 4px 8px;
-        margin-left: 4px;
+        padding: 4px 6px;
+        margin-left: 2px;
         border: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: clamp(8px, 2.5vw, 10px);
+        font-size: clamp(8px, 2.2vw, 10px);
         white-space: nowrap;
         flex-shrink: 0; /* Never squish */
         color: var(--color-cyan); /* Highlight it */
@@ -1530,18 +1530,21 @@
         overflow: visible !important;
       }
 
-      /* Transform the original btn-group into a floating dropdown */
+      /* Transform the original btn-group into a sleek floating dropdown */
       .desktop-diff-group {
         position: absolute;
         top: -10px; /* Overlap upwards over Smart AI / Trigger area */
-        left: -50px; /* Offset to overlap Smart AI visually */
+        left: -30px; /* Offset to overlap Smart AI visually */
         flex-direction: column;
         align-items: stretch;
         z-index: 1000;
-        background: var(--bg-secondary);
+        background: rgba(18, 18, 25, 0.98); /* Solid, professional dark background */
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 12px;
-        padding: 4px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        padding: 6px;
+        gap: 4px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
         
         /* Hidden by default, toggled via JS */
         opacity: 0;
