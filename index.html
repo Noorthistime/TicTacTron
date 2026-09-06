@@ -1493,9 +1493,9 @@
       }
       /* Ensure ALL Icons are sized identically and sit side-by-side */
       .header-options .icon-btn, .header-options > #btn-sound {
-        width: clamp(32px, 8vw, 40px) !important;
-        height: clamp(32px, 8vw, 40px) !important;
-        margin: 0 1vw !important;
+        width: clamp(24px, 6vw, 28px) !important;
+        height: clamp(24px, 6vw, 28px) !important;
+        margin: 0 0.5vw !important;
         flex-shrink: 0; 
       }
       .header-options .icon-btn svg, .header-options > #btn-sound svg {
@@ -1511,33 +1511,42 @@
       #mobile-diff-trigger {
         display: block !important;
         background: var(--bg-tertiary);
-        border-radius: 12px;
-        padding: 4px 10px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        font-size: clamp(8px, 2.5vw, 11px);
+        border-radius: 8px; /* Tighter look */
+        padding: 4px 8px;
+        margin-left: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: clamp(8px, 2.5vw, 10px);
         white-space: nowrap;
+        flex-shrink: 0; /* Never squish */
+        color: var(--color-cyan); /* Highlight it */
       }
       
       /* Make the difficulty container relative so the dropdown floats over it */
       #difficulty-container {
         position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
       }
 
       /* Transform the original btn-group into a floating dropdown */
       .desktop-diff-group {
         position: absolute;
-        top: 110%;
-        right: 0;
+        top: -10px; /* Overlap upwards over Smart AI / Trigger area */
+        left: -50px; /* Offset to overlap Smart AI visually */
         flex-direction: column;
         align-items: stretch;
         z-index: 1000;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        padding: 4px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1);
         
         /* Hidden by default, toggled via JS */
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transform: translateY(-10px);
+        transform: translateY(-5px);
         transition: all 0.2s ease;
       }
       
@@ -3344,9 +3353,11 @@
         handleModeToggle(false);
       });
 
-      modeAI.addEventListener('click', () => {
+      modeAI.addEventListener('click', (e) => {
         SoundSynth.playClick();
         handleModeToggle(true);
+        e.stopPropagation(); // prevent document click from closing
+        document.querySelector('.desktop-diff-group')?.classList.add('show-dropdown');
       });
 
       diffEasy.addEventListener('click', () => {
