@@ -1440,6 +1440,12 @@
         padding: 2vh 4vw; /* Minimal edge padding */
         min-height: 100vh;
         min-height: -webkit-fill-available;
+        cursor: auto !important; /* Force standard touch cursor on mobile */
+      }
+      
+      /* Hide all custom animated/image cursors on touch devices */
+      #idk-animated-cursor, .lgc-lens {
+        display: none !important;
       }
       .app-container {
         padding: 0;
