@@ -1475,44 +1475,22 @@
         flex-direction: row; 
         flex-wrap: nowrap; /* Never wrap */
         align-items: center;
-        justify-content: space-between;
+        justify-content: center; /* Centralize everything */
         width: 100%;
-        gap: 0; 
+        gap: 8px; /* Tight, professional gap */
       }
       .option-item {
         flex-direction: row;
         flex-wrap: nowrap; 
-      }
-      
-      /* Opponent Group (Left 50% or 70%) */
-      .header-options > .option-item:first-of-type {
-        flex: 1;
-        justify-content: flex-start;
         margin: 0;
-      }
-      
-      /* Difficulty Group (Middle) */
-      #difficulty-container {
-        flex: 0 0 auto;
-        margin: 0;
-      }
-
-      /* Icons Group (Right 50%) */
-      .header-options > .option-item:last-of-type {
-        flex: 0 0 50%;
-        justify-content: flex-end;
-        transition: flex 0.3s ease;
-        margin: 0;
-      }
-
-      /* When Smart AI Difficulty appears, morph Icons to 30% ratio! */
-      #difficulty-container.visible ~ .option-item:last-of-type {
-        flex: 0 0 30%;
+        width: auto;
+        justify-content: center;
+        flex: 0 1 auto; /* Take only needed space */
       }
       /* Ensure ALL Icons are sized identically and sit side-by-side */
       .header-options .icon-btn, .header-options > #btn-sound {
-        width: clamp(22px, 5.5vw, 26px) !important;
-        height: clamp(22px, 5.5vw, 26px) !important;
+        width: clamp(26px, 6.5vw, 30px) !important;
+        height: clamp(26px, 6.5vw, 30px) !important;
         margin: 0 0.25vw !important;
         flex-shrink: 0; 
       }
@@ -1530,10 +1508,10 @@
         display: block !important;
         background: var(--bg-tertiary);
         border-radius: 8px; /* Tighter look */
-        padding: 4px 6px;
+        padding: 6px 10px;
         margin-left: 2px;
         border: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: clamp(8px, 2.2vw, 10px);
+        font-size: clamp(9px, 2.5vw, 11px);
         white-space: nowrap;
         flex-shrink: 0; /* Never squish */
         color: var(--color-cyan); /* Highlight it */
