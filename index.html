@@ -286,6 +286,12 @@
       --header-border-glow: rgba(255, 255, 255, 0.9);
     }
 
+    /* Active state specifically for Metallic/Apple Theme */
+    :root[data-apple="true"] .btn-toggle.active {
+      background: var(--glass-bg);
+      box-shadow: 0 0 8px var(--header-border-glow);
+    }
+
     body {
       font-family: var(--font-family);
       background: var(--bg-gradient);
