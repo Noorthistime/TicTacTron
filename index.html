@@ -1526,6 +1526,7 @@
         flex-direction: row;
         align-items: center;
         overflow: visible !important;
+        flex: 0 1 auto; /* Allow shrinking when max-width is 0 */
       }
 
       /* Transform the original btn-group into a sleek floating dropdown */
@@ -1536,13 +1537,14 @@
         flex-direction: column;
         align-items: stretch;
         z-index: 1000;
-        background: rgba(18, 18, 25, 0.98); /* Solid, professional dark background */
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: var(--surface-soft); /* Adapts perfectly to ANY theme */
+        border: 1px solid var(--glass-border);
         border-radius: 12px;
         padding: 6px;
         gap: 4px;
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
+        box-shadow: var(--glass-shadow);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         
         /* Hidden by default, toggled via JS */
         opacity: 0;
