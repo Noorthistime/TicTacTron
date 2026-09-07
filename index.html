@@ -1401,6 +1401,49 @@
     :root[data-apple="true"] .score-box {
       cursor: url('Metallic_Theme_Cursor.png'), pointer !important;
     }
+    
+    /* Disable all custom cursors on mobile to prevent touch hit-testing bugs */
+    @media (max-width: 768px) {
+      :root[data-apple="true"] a,
+      :root[data-apple="true"] button,
+      :root[data-apple="true"] .cell,
+      :root[data-apple="true"] .icon-btn,
+      :root[data-apple="true"] .btn-toggle,
+      :root[data-apple="true"] .score-box,
+      :root:not([data-apple="true"]):not([data-alien="true"]),
+      :root:not([data-apple="true"]):not([data-alien="true"]) body,
+      :root:not([data-apple="true"]):not([data-alien="true"]) button,
+      :root:not([data-apple="true"]):not([data-alien="true"]) .cell,
+      :root:not([data-apple="true"]):not([data-alien="true"]) .icon-btn,
+      :root:not([data-apple="true"]):not([data-alien="true"]) a,
+      :root:not([data-apple="true"]):not([data-alien="true"]) .score-box,
+      :root:not([data-apple="true"]):not([data-alien="true"]) .btn-toggle,
+      :root[data-alien="true"],
+      :root[data-alien="true"] body,
+      :root[data-alien="true"] button,
+      :root[data-alien="true"] .cell,
+      :root[data-alien="true"] .icon-btn,
+      :root[data-alien="true"] a,
+      :root[data-alien="true"] .score-box,
+      :root[data-alien="true"] .btn-toggle {
+        cursor: auto !important;
+      }
+      
+      /* Ensure Metallic theme dropdown has a strong, visible contrast on mobile */
+      :root[data-apple="true"] .desktop-diff-group {
+        background: rgba(30, 30, 35, 0.95) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      }
+      :root[data-apple="true"] .desktop-diff-group .btn-toggle {
+        color: rgba(255, 255, 255, 0.7) !important;
+      }
+      :root[data-apple="true"] .desktop-diff-group .btn-toggle.active {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.3) !important;
+      }
+    }
+
     #lgc-container {
       position: fixed;
       inset: 0;
