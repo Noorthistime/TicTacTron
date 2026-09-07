@@ -1477,7 +1477,9 @@
         align-items: center;
         justify-content: center; /* Centralize everything */
         width: 100%;
-        gap: 8px; /* Tight, professional gap */
+        gap: clamp(3px, 1vw, 6px); /* Compressed gap */
+        padding: 0 3vw; /* Safe bumper padding */
+        box-sizing: border-box;
       }
       .option-item {
         flex-direction: row;
@@ -1489,9 +1491,9 @@
       }
       /* Ensure ALL Icons are sized identically and sit side-by-side */
       .header-options .icon-btn, .header-options > #btn-sound {
-        width: clamp(26px, 6.5vw, 30px) !important;
-        height: clamp(26px, 6.5vw, 30px) !important;
-        margin: 0 0.25vw !important;
+        width: clamp(24px, 6vw, 28px) !important;
+        height: clamp(24px, 6vw, 28px) !important;
+        margin: 0 0.2vw !important;
         flex-shrink: 0; 
       }
       .header-options .icon-btn svg, .header-options > #btn-sound svg {
@@ -1508,10 +1510,10 @@
         display: block !important;
         background: var(--bg-tertiary);
         border-radius: 8px; /* Tighter look */
-        padding: 6px 10px;
-        margin-left: 2px;
+        padding: 4px 6px;
+        margin-left: 1px;
         border: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: clamp(9px, 2.5vw, 11px);
+        font-size: clamp(8px, 2.2vw, 10px);
         white-space: nowrap;
         flex-shrink: 0; /* Never squish */
         color: var(--color-cyan); /* Highlight it */
